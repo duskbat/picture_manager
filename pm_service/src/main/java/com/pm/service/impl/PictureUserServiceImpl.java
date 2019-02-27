@@ -1,8 +1,9 @@
-package com.pm.service;
+package com.pm.service.impl;
 
 
 import com.pm.dao.PictureUserMapper;
 import com.pm.entity.PictureUser;
+import com.pm.service.PictureUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

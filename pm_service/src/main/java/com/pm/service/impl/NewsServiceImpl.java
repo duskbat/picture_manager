@@ -1,4 +1,4 @@
-package com.pm.service;
+package com.pm.service.impl;
 
 
 import com.pm.dao.MyNewsMapper;
@@ -7,6 +7,7 @@ import com.pm.entity.MyNews;
 import com.pm.entity.MyNewsExample;
 import com.pm.entity.MyNotice;
 import com.pm.entity.MyNoticeExample;
+import com.pm.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

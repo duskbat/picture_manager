@@ -1,9 +1,10 @@
-package com.pm.service;
+package com.pm.service.impl;
 
 import com.pm.dao.FileUpMapper;
 import com.pm.dao.MyNewsMapper;
 import com.pm.dao.MyNoticeMapper;
 import com.pm.entity.*;
+import com.pm.service.FileService;
 import com.pm.utils.FFMPEG;
 import com.pm.utils.ImageMarkLogoByIcon;
 import com.sun.image.codec.jpeg.JPEGCodec;

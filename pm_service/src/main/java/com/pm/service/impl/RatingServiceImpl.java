@@ -1,14 +1,15 @@
-package com.pm.service;
+package com.pm.service.impl;
 
 import com.pm.dao.RatingMapper;
 import com.pm.entity.Rating;
+import com.pm.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
-public class RatingServiceImpl implements RatingService{
+public class RatingServiceImpl implements RatingService {
     @Autowired
     RatingMapper ratingMapper;
 

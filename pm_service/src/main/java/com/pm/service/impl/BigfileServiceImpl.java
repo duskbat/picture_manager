@@ -1,9 +1,10 @@
-package com.pm.service;
+package com.pm.service.impl;
 
 
 import com.pm.dao.FileUpMapper;
 import com.pm.dao.PictureUserMapper;
 import com.pm.entity.*;
+import com.pm.service.BigfileService;
 import com.pm.utils.FFMPEG;
 import com.pm.utils.ImageMarkLogoByIcon;
 import org.springframework.beans.factory.annotation.Autowired;

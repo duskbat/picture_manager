@@ -1,49 +1,67 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
-        <artifactId>Picture Manager</artifactId>
         <groupId>com.pm</groupId>
+        <artifactId>pm_manager</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
+
     <artifactId>pm_web</artifactId>
     <packaging>war</packaging>
-    <name>pm_web Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+
     <dependencies>
         <dependency>
             <groupId>com.pm</groupId>
             <artifactId>pm_service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.pm</groupId>
+            <artifactId>pm_entity</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.pm</groupId>
+            <artifactId>pm_utils</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-    <build>
-        <finalName>pm_web</finalName>
-        <resources>
-            <!--引入映射文件  xxxMapper.xml-->
-            <resource>
-                <directory>../pm_dao/src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-            <!--引入web模块下resources文件夹下的文件-->
-            <resource>
-                <directory>../pm_service/src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>../pm_dao/src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>../pm_entity/src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>../pm_utils/src/main/java</directory>
-            </resource>
-            <resource>
-                <directory>/src/main/java</directory>
-            </resource>
-        </resources>
-    </build>
+    <!--
+        <build>
+            <finalName>pm_web</finalName>
+            <resources>
+                <-引入映射文件  xxxMapper.xml->
+                <resource>
+                    <directory>../pm_dao/src/main/java</directory>
+                    <includes>
+                        <include>**/*.xml</include>
+                    </includes>
+                    <filtering>false</filtering>
+                </resource>
+                <-引入web模块下resources文件夹下的文件->
+                <resource>
+                    <directory>../pm_service/src/main/java</directory>
+                </resource>
+                <resource>
+                    <directory>../pm_dao/src/main/java</directory>
+                </resource>
+                <resource>
+                    <directory>../pm_entity/src/main/java</directory>
+                </resource>
+                <resource>
+                    <directory>../pm_utils/src/main/java</directory>
+                </resource>
+                <resource>
+                    <directory>/src/main/java</directory>
+                </resource>
+            </resources>
+        </build>
+    -->
 </project>
