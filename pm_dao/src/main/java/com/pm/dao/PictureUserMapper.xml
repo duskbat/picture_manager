@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pm.dao.PictureUserMapper" >
+
+   <!--公共表-->
+  <sql id="rootsql">
+    select a.*,
+    b.id did,b.file_name dfile_name,b.file_path dfile_path,b.fille_pathbig dfille_pathbig,b.file_pathmid dfile_pathmid,b.file_pathsmall dfile_pathsmall,b.file_pathshow dfile_pathshow,b.user_id duser_id,b.state_id dstate_id,b.mode dmode,b.cameraman dcameraman,b.picture_name dpicture_name,b.index_slide dindex_slide,b.index_animal dindex_animal,b.index_plant dindex_plant,b.index_scape dindex_scape,b.instruction dinstruction,b.owner downer,b.owner_number downer_number,b.reason dreason,b.direction ddirection,b.species dspecies,b.path_price dpath_price,b.bigpath_price dbigpath_price,b.midpath_price dmidpath_price,b.smallpath_price dsmallpath_price,
+    c.id cid,c.username cusername,c.password cpassword,c.nickname cnickname,c.adress cadress,c.email cemail,c.telephone ctelephone,c.realname crealname,c.idcard cidcard,c.wechat cwechat,c.qq cqq,c.company ccompany,c.workphone cworkphone,c.company_number ccompany_number,c.admin cadmin,c.paycode cpaycode
+    from picture_user a
+    left join file_up b
+    on a.picid = b.id
+    left join user c
+    on a.userid = c.id
+  </sql>
+
+  <resultMap id="picuser_fileup_user" type="com.pm.entity.PictureUser" >
+    <result column="id" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="picid" property="picid" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="userid" property="userid" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="shopid" property="shopid" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="compareid" property="compareid" jdbcType="BIGINT" javaType="java.lang.Long" />
+
+
+    <association property="fileUpEntity" javaType="com.pm.entity.FileUp">
+      <id column="did" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="dfile_name" property="fileName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_path" property="filePath" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfille_pathbig" property="fillePathbig" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_pathmid" property="filePathmid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_pathsmall" property="filePathsmall" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_pathshow" property="filePathshow" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="duser_id" property="userId" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="dstate_id" property="stateId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dmode" property="mode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dcameraman" property="cameraman" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dpicture_name" property="pictureName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dindex_slide" property="indexSlide" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dindex_animal" property="indexAnimal" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dindex_plant" property="indexPlant" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dindex_scape" property="indexScape" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dinstruction" property="instruction" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="downer" property="owner" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="downer_number" property="ownerNumber" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="dreason" property="reason" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="ddirection" property="direction" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dspecies" property="species" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dpath_price" property="pathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <result column="dbigpath_price" property="bigpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <result column="dmidpath_price"  property="midpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <result column="dsmallpath_price" property="smallpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+
+    </association>
+
+    <association property="userEntity" javaType="com.pm.entity.User">
+      <id column="cid" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="cusername" property="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cpassword" property="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cnickname" property="nickname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cadress" property="adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cemail" property="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="ctelephone" property="telephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="cwechat" property="wechat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cqq" property="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="ccompany" property="company" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cworkphone" property="workphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="crealname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cidcard" property="idcard" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="ccompany_number" property="companyNumber" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="cadmin" property="admin" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cpaycode" property="paycode" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+    </association>
+
+  </resultMap>
+
+  <select id="selectPicUser" resultMap="picuser_fileup_user" >
+    <include refid="rootsql"></include>
+  </select>
+
+  <select id="selectPicUserById" parameterType="long" resultMap="picuser_fileup_user" >
+    <include refid="rootsql"></include> where a.id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <!-- 批量查询用户收藏-->
+  <select id="selectClientMark" parameterType="long" resultMap="picuser_fileup_user">
+   <include refid="rootsql" /> where a.userid = ${userid}
+  </select>
+
+  <!-- 批量查询用户购物车-->
+  <select id="selectClientShop" parameterType="long" resultMap="picuser_fileup_user">
+    <include refid="rootsql" /> where a.userid = ${userid} and a.shopid = ${shopid}
+  </select>
+
+  <!-- 批量查询用户多图比较-->
+  <select id="selectClientCompare" parameterType="long" resultMap="picuser_fileup_user">
+    <include refid="rootsql" /> where a.userid = ${userid} and a.compareid = ${compareid}
+  </select>
+
+
+
+
+  <resultMap id="BaseResultMap" type="com.pm.entity.PictureUser" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="picid" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="userid" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="shopid" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="compareid" jdbcType="BIGINT" javaType="java.lang.Long" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, picid, userid, shopid, compareid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pm.entity.PictureUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from picture_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from picture_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from picture_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.entity.PictureUserExample" >
+    delete from picture_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.entity.PictureUser" >
+    insert into picture_user (id, picid, userid, 
+      shopid, compareid)
+    values (#{id,jdbcType=BIGINT}, #{picid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, 
+      #{shopid,jdbcType=BIGINT}, #{compareid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.entity.PictureUser" >
+    insert into picture_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="picid != null" >
+        picid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="shopid != null" >
+        shopid,
+      </if>
+      <if test="compareid != null" >
+        compareid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="picid != null" >
+        #{picid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=BIGINT},
+      </if>
+      <if test="compareid != null" >
+        #{compareid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.entity.PictureUserExample" resultType="java.lang.Integer" >
+    select count(*) from picture_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update picture_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.picid != null" >
+        picid = #{record.picid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userid != null" >
+        userid = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.shopid != null" >
+        shopid = #{record.shopid,jdbcType=BIGINT},
+      </if>
+      <if test="record.compareid != null" >
+        compareid = #{record.compareid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update picture_user
+    set id = #{record.id,jdbcType=BIGINT},
+      picid = #{record.picid,jdbcType=BIGINT},
+      userid = #{record.userid,jdbcType=BIGINT},
+      shopid = #{record.shopid,jdbcType=BIGINT},
+      compareid = #{record.compareid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.entity.PictureUser" >
+    update picture_user
+    <set >
+      <if test="picid != null" >
+        picid = #{picid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="shopid != null" >
+        shopid = #{shopid,jdbcType=BIGINT},
+      </if>
+      <if test="compareid != null" >
+        compareid = #{compareid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.entity.PictureUser" >
+    update picture_user
+    set picid = #{picid,jdbcType=BIGINT},
+      userid = #{userid,jdbcType=BIGINT},
+      shopid = #{shopid,jdbcType=BIGINT},
+      compareid = #{compareid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <!--批量插入用户收藏-->
+  <insert id="insertMark"  parameterType="java.util.List" keyProperty="id">
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT @@IDENTITY
+    </selectKey>
+    insert into picture_user(
+    picid,
+    userid)
+    values
+    <foreach collection="list" index="index"
+             item="item" separator=",">
+      (
+      #{item.picid},
+      #{item.userid})
+    </foreach>
+  </insert>
+
+
+  <!--批量删除不再收藏的图片-->
+  <delete id="DeleteMarkBatch" parameterType="java.util.List">
+    delete from picture_user
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </delete>
+
+  <!--批量更新用户购物车状态id-->
+  <update id="updateShop"  parameterType="java.util.List">
+    update picture_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="shopid =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          when id=#{item.id} then #{item.shopid}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <!--批量更新用户购物车状态id-->
+  <update id="updateCompare"  parameterType="java.util.List">
+    update picture_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="compareid =case" suffix="end,">
+        <foreach collection="list" item="item" index="index">
+          when id=#{item.id} then #{item.compareid}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+
+</mapper>

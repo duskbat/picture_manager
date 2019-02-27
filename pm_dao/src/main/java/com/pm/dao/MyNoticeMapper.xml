@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pm.dao.MyNoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.pm.entity.MyNotice" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="new_title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_source" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_author" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="new_record" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="new_attachment" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pm.entity.MyNotice" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="new_title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_source" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_author" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="new_record" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="new_attachment" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="new_html" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, new_title, new_source, new_author, new_time, new_record, new_attachment
+  </sql>
+  <sql id="Blob_Column_List" >
+    new_html
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pm.entity.MyNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from my_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pm.entity.MyNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from my_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from my_notice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from my_notice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.entity.MyNoticeExample" >
+    delete from my_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.entity.MyNotice" >
+    insert into my_notice (id, new_title, new_source, 
+      new_author, new_time, new_record, 
+      new_attachment, new_html)
+    values (#{id,jdbcType=BIGINT}, #{newTitle,jdbcType=VARCHAR}, #{newSource,jdbcType=VARCHAR}, 
+      #{newAuthor,jdbcType=VARCHAR}, #{newTime,jdbcType=TIMESTAMP}, #{newRecord,jdbcType=INTEGER}, 
+      #{newAttachment,jdbcType=VARCHAR}, #{newHtml,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.entity.MyNotice" >
+    insert into my_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="newTitle != null" >
+        new_title,
+      </if>
+      <if test="newSource != null" >
+        new_source,
+      </if>
+      <if test="newAuthor != null" >
+        new_author,
+      </if>
+      <if test="newTime != null" >
+        new_time,
+      </if>
+      <if test="newRecord != null" >
+        new_record,
+      </if>
+      <if test="newAttachment != null" >
+        new_attachment,
+      </if>
+      <if test="newHtml != null" >
+        new_html,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="newTitle != null" >
+        #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newSource != null" >
+        #{newSource,jdbcType=VARCHAR},
+      </if>
+      <if test="newAuthor != null" >
+        #{newAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="newTime != null" >
+        #{newTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newRecord != null" >
+        #{newRecord,jdbcType=INTEGER},
+      </if>
+      <if test="newAttachment != null" >
+        #{newAttachment,jdbcType=VARCHAR},
+      </if>
+      <if test="newHtml != null" >
+        #{newHtml,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.entity.MyNoticeExample" resultType="java.lang.Integer" >
+    select count(*) from my_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update my_notice
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.newTitle != null" >
+        new_title = #{record.newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newSource != null" >
+        new_source = #{record.newSource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newAuthor != null" >
+        new_author = #{record.newAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newTime != null" >
+        new_time = #{record.newTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newRecord != null" >
+        new_record = #{record.newRecord,jdbcType=INTEGER},
+      </if>
+      <if test="record.newAttachment != null" >
+        new_attachment = #{record.newAttachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newHtml != null" >
+        new_html = #{record.newHtml,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update my_notice
+    set id = #{record.id,jdbcType=BIGINT},
+      new_title = #{record.newTitle,jdbcType=VARCHAR},
+      new_source = #{record.newSource,jdbcType=VARCHAR},
+      new_author = #{record.newAuthor,jdbcType=VARCHAR},
+      new_time = #{record.newTime,jdbcType=TIMESTAMP},
+      new_record = #{record.newRecord,jdbcType=INTEGER},
+      new_attachment = #{record.newAttachment,jdbcType=VARCHAR},
+      new_html = #{record.newHtml,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update my_notice
+    set id = #{record.id,jdbcType=BIGINT},
+      new_title = #{record.newTitle,jdbcType=VARCHAR},
+      new_source = #{record.newSource,jdbcType=VARCHAR},
+      new_author = #{record.newAuthor,jdbcType=VARCHAR},
+      new_time = #{record.newTime,jdbcType=TIMESTAMP},
+      new_record = #{record.newRecord,jdbcType=INTEGER},
+      new_attachment = #{record.newAttachment,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.entity.MyNotice" >
+    update my_notice
+    <set >
+      <if test="newTitle != null" >
+        new_title = #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newSource != null" >
+        new_source = #{newSource,jdbcType=VARCHAR},
+      </if>
+      <if test="newAuthor != null" >
+        new_author = #{newAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="newTime != null" >
+        new_time = #{newTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newRecord != null" >
+        new_record = #{newRecord,jdbcType=INTEGER},
+      </if>
+      <if test="newAttachment != null" >
+        new_attachment = #{newAttachment,jdbcType=VARCHAR},
+      </if>
+      <if test="newHtml != null" >
+        new_html = #{newHtml,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pm.entity.MyNotice" >
+    update my_notice
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      new_source = #{newSource,jdbcType=VARCHAR},
+      new_author = #{newAuthor,jdbcType=VARCHAR},
+      new_time = #{newTime,jdbcType=TIMESTAMP},
+      new_record = #{newRecord,jdbcType=INTEGER},
+      new_attachment = #{newAttachment,jdbcType=VARCHAR},
+      new_html = #{newHtml,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.entity.MyNotice" >
+    update my_notice
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      new_source = #{newSource,jdbcType=VARCHAR},
+      new_author = #{newAuthor,jdbcType=VARCHAR},
+      new_time = #{newTime,jdbcType=TIMESTAMP},
+      new_record = #{newRecord,jdbcType=INTEGER},
+      new_attachment = #{newAttachment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

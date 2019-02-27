@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pm.dao.RatingMapper" >
+  <resultMap id="BaseResultMap" type="com.pm.entity.Rating" >
+    <constructor >
+      <idArg column="ratingId" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="userId" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="pictureId" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="rating" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="createTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ratingId, userId, pictureId, rating, createTime
+  </sql>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pm.entity.RatingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rating
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from rating
+    where ratingId = #{ratingid,jdbcType=BIGINT}
+  </select>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select *
+        from rating
+        where userId = #{userid,jdbcType=BIGINT} and pictureId=#{pictureid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from rating
+    where ratingId = #{ratingid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.entity.RatingExample" >
+    delete from rating
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+
+  <insert id="insert" parameterType="com.pm.entity.Rating" >
+    insert into rating (ratingId, userId, pictureId, 
+      rating, createTime)
+    values (#{ratingid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{pictureid,jdbcType=BIGINT}, 
+      #{rating,jdbcType=TINYINT}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.entity.Rating" >
+    insert into rating
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ratingid != null" >
+        ratingId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="pictureid != null" >
+        pictureId,
+      </if>
+      <if test="rating != null" >
+        rating,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ratingid != null" >
+        #{ratingid,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="pictureid != null" >
+        #{pictureid,jdbcType=BIGINT},
+      </if>
+      <if test="rating != null" >
+        #{rating,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="countByExample" parameterType="com.pm.entity.RatingExample" resultType="java.lang.Integer" >
+    select count(*) from rating
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rating
+    <set >
+      <if test="record.ratingid != null" >
+        ratingId = #{record.ratingid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=BIGINT},
+      </if>
+      <if test="record.pictureid != null" >
+        pictureId = #{record.pictureid,jdbcType=BIGINT},
+      </if>
+      <if test="record.rating != null" >
+        rating = #{record.rating,jdbcType=TINYINT},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rating
+    set ratingId = #{record.ratingid,jdbcType=BIGINT},
+      userId = #{record.userid,jdbcType=BIGINT},
+      pictureId = #{record.pictureid,jdbcType=BIGINT},
+      rating = #{record.rating,jdbcType=TINYINT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.entity.Rating" >
+    update rating
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="pictureid != null" >
+        pictureId = #{pictureid,jdbcType=BIGINT},
+      </if>
+      <if test="rating != null" >
+        rating = #{rating,jdbcType=TINYINT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ratingId = #{ratingid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.entity.Rating" >
+    update rating
+    set userId = #{userid,jdbcType=BIGINT},
+      pictureId = #{pictureid,jdbcType=BIGINT},
+      rating = #{rating,jdbcType=TINYINT},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where ratingId = #{ratingid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pm.dao.MyOrderMapper" >
+
+
+
+
+  <!--公共表-->
+  <sql id="rootsql">
+    select a.*,
+    b.id did,b.file_name dfile_name,b.file_path dfile_path,b.fille_pathbig dfille_pathbig,b.file_pathmid dfile_pathmid,b.file_pathsmall dfile_pathsmall,b.file_pathshow dfile_pathshow,b.user_id duser_id,b.state_id dstate_id,b.mode dmode,b.cameraman dcameraman,b.picture_name dpicture_name,b.index_slide dindex_slide,b.index_animal dindex_animal,b.index_plant dindex_plant,b.index_scape dindex_scape,b.instruction dinstruction,b.owner downer,b.owner_number downer_number,b.reason dreason,b.direction ddirection,b.species dspecies,b.path_price dpath_price,b.bigpath_price dbigpath_price,b.midpath_price dmidpath_price,b.smallpath_price dsmallpath_price,
+    c.id cid,c.username cusername,c.password cpassword,c.nickname cnickname,c.adress cadress,c.email cemail,c.telephone ctelephone,c.realname crealname,c.idcard cidcard,c.wechat cwechat,c.qq cqq,c.company ccompany,c.workphone cworkphone,c.company_number ccompany_number,c.admin cadmin,
+    e.id eid,e.username eusername,e.password epassword,e.nickname enickname,e.adress eadress,e.email eemail,e.telephone etelephone,e.realname erealname,e.idcard eidcard,e.wechat ewechat,e.qq eqq,e.company ecompany,e.workphone eworkphone,e.company_number ecompany_number,e.admin eadmin
+    from my_order a
+    left join file_up b
+    on a.order_picid = b.id
+    left join user c
+    on a.order_userid = c.id
+    left join user e
+    on a.order_upload = e.id
+  </sql>
+
+  <resultMap id="myorder_fileup_user" type="com.pm.entity.MyOrder" >
+    <result column="id" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="order_picid" property="orderPicid" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="order_userid" property="orderUserid" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="order_upload" property="orderUpload" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="copyright_name" property="copyrightName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="copyright_number" property="copyrightNumber" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="copyright_telephone" property="copyrightTelephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="application" property="application" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="country_range" property="countryRange" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="end_time"  property="endTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result column="price"  property="price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    <result column="pay_account" property="payAccount" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="email_box" property="emailBox" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="email_adress" property="emailAdress" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="pay_state" property="payState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="contract_state" property="contractState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="copyright_owner" property="copyrightOwner" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="owner_number" property="ownerNumber" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="company_price" property="companyPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    <result column="company_state" property="companyState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="client_state" property="clientState" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="company_account" property="companyAccount" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="client_account" property="clientAccount" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+
+
+
+    <association property="ofileUpEntity" javaType="com.pm.entity.FileUp">
+      <id column="did" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="dfile_name" property="fileName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_path" property="filePath" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfille_pathbig" property="fillePathbig" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_pathmid" property="filePathmid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_pathsmall" property="filePathsmall" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dfile_pathshow" property="filePathshow" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="duser_id" property="userId" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="dstate_id" property="stateId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dmode" property="mode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dcameraman" property="cameraman" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dpicture_name" property="pictureName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dindex_slide" property="indexSlide" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dindex_animal" property="indexAnimal" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dindex_plant" property="indexPlant" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dindex_scape" property="indexScape" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dinstruction" property="instruction" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="downer" property="owner" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="downer_number" property="ownerNumber" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="dreason" property="reason" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="ddirection" property="direction" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dspecies" property="species" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="dpath_price" property="pathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <result column="dbigpath_price" property="bigpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <result column="dmidpath_price"  property="midpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <result column="dsmallpath_price" property="smallpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+
+    </association>
+
+    <association property="ouserEntity" javaType="com.pm.entity.User">
+      <id column="cid" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="cusername" property="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cpassword" property="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cnickname" property="nickname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cadress" property="adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cemail" property="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="ctelephone" property="telephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="cwechat" property="wechat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cqq" property="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="ccompany" property="company" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cworkphone" property="workphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="crealname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="cidcard" property="idcard" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="ccompany_number" property="companyNumber" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="cadmin" property="admin" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+    </association>
+
+    <association property="upuserEntity" javaType="com.pm.entity.User">
+      <id column="eid" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="eusername" property="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="epassword" property="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="enickname" property="nickname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="eadress" property="adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="eemail" property="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="etelephone" property="telephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="ewechat" property="wechat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="eqq" property="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="ecompany" property="company" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="eworkphone" property="workphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="erealname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="eidcard" property="idcard" jdbcType="VARCHAR" javaType="java.lang.String"  />
+      <result column="ecompany_number" property="companyNumber" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="eadmin" property="admin" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+    </association>
+
+  </resultMap>
+
+  <select id="selectOrder" resultMap="myorder_fileup_user" >
+    <include refid="rootsql"></include>
+  </select>
+
+  <select id="selectOrderById" parameterType="long" resultMap="myorder_fileup_user" >
+    <include refid="rootsql"></include> where a.id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectOneClientOrder" parameterType="INTEGER" resultMap="myorder_fileup_user" >
+    <include refid="rootsql"></include> where a.order_userid = ${orderUserid}
+  </select>
+
+  <!-- 批量查询公司订单标记-->
+  <select id="selectCompanyOrder" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} ORDER BY a.id DESC
+  </select>
+
+
+  <!-- 批量查询公司订单标记-->
+  <select id="selectCompanyPaystate" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} and a.pay_state = ${payState} ORDER BY a.id DESC
+  </select>
+
+
+  <!-- 批量查询用户订单标记-->
+  <select id="selectClientOrder" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} and a.order_userid = ${orderUserid} ORDER BY a.id DESC
+  </select>
+
+
+  <!-- 批量查询用户订单标记-->
+  <select id="selectCompanyPay" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} and a.order_upload != ${orderUpload} and a.company_state = ${companyState} ORDER BY a.id DESC
+  </select>
+
+
+  <!-- 批量查询用户订单标记-->
+  <select id="selectClientPay" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} and a.order_upload = ${orderUpload} and a.client_state = ${clientState} ORDER BY a.id DESC
+  </select>
+
+
+  <!-- 批量查询公司订单标记-->
+  <select id="searchCompanyDeal" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} and a.pay_state = ${payState} and a.copyright_name like '%${copyrightName}%' ORDER BY a.id DESC
+  </select>
+
+  <!-- 批量查询公司订单标记-->
+  <select id="searchCompanyDealSuccess" parameterType="INTEGER" resultMap="myorder_fileup_user">
+    <include refid="rootsql" /> where a.contract_state = ${contractState} and a.copyright_name like '%${copyrightName}%' ORDER BY a.id DESC
+  </select>
+
+
+
+
+  <resultMap id="BaseResultMap" type="com.pm.entity.MyOrder" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="order_picid" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="order_userid" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="order_upload" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="copyright_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="copyright_number" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="copyright_telephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="application" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="country_range" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="start_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="end_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="pay_account" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="email_box" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="email_adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="contract_state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="copyright_owner" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_number" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="company_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="company_state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="client_state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="company_account" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="client_account" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_picid, order_userid, order_upload, copyright_name, copyright_number, copyright_telephone, 
+    application, country_range, start_time, end_time, price, pay_account, email_box, 
+    email_adress, pay_state, contract_state, copyright_owner, owner_number, company_price, 
+    company_state, client_state, company_account, client_account, pay_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pm.entity.MyOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from my_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from my_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from my_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.entity.MyOrderExample" >
+    delete from my_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.entity.MyOrder" >
+    insert into my_order (id, order_picid, order_userid, 
+      order_upload, copyright_name, copyright_number, 
+      copyright_telephone, application, country_range, 
+      start_time, end_time, price, 
+      pay_account, email_box, email_adress, 
+      pay_state, contract_state, copyright_owner, 
+      owner_number, company_price, company_state, 
+      client_state, company_account, client_account, 
+      pay_time)
+    values (#{id,jdbcType=BIGINT}, #{orderPicid,jdbcType=BIGINT}, #{orderUserid,jdbcType=BIGINT}, 
+      #{orderUpload,jdbcType=BIGINT}, #{copyrightName,jdbcType=VARCHAR}, #{copyrightNumber,jdbcType=VARCHAR}, 
+      #{copyrightTelephone,jdbcType=BIGINT}, #{application,jdbcType=INTEGER}, #{countryRange,jdbcType=INTEGER}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{price,jdbcType=DOUBLE}, 
+      #{payAccount,jdbcType=VARCHAR}, #{emailBox,jdbcType=VARCHAR}, #{emailAdress,jdbcType=VARCHAR}, 
+      #{payState,jdbcType=INTEGER}, #{contractState,jdbcType=INTEGER}, #{copyrightOwner,jdbcType=VARCHAR}, 
+      #{ownerNumber,jdbcType=VARCHAR}, #{companyPrice,jdbcType=DOUBLE}, #{companyState,jdbcType=INTEGER}, 
+      #{clientState,jdbcType=INTEGER}, #{companyAccount,jdbcType=VARCHAR}, #{clientAccount,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.entity.MyOrder" >
+    insert into my_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderPicid != null" >
+        order_picid,
+      </if>
+      <if test="orderUserid != null" >
+        order_userid,
+      </if>
+      <if test="orderUpload != null" >
+        order_upload,
+      </if>
+      <if test="copyrightName != null" >
+        copyright_name,
+      </if>
+      <if test="copyrightNumber != null" >
+        copyright_number,
+      </if>
+      <if test="copyrightTelephone != null" >
+        copyright_telephone,
+      </if>
+      <if test="application != null" >
+        application,
+      </if>
+      <if test="countryRange != null" >
+        country_range,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="payAccount != null" >
+        pay_account,
+      </if>
+      <if test="emailBox != null" >
+        email_box,
+      </if>
+      <if test="emailAdress != null" >
+        email_adress,
+      </if>
+      <if test="payState != null" >
+        pay_state,
+      </if>
+      <if test="contractState != null" >
+        contract_state,
+      </if>
+      <if test="copyrightOwner != null" >
+        copyright_owner,
+      </if>
+      <if test="ownerNumber != null" >
+        owner_number,
+      </if>
+      <if test="companyPrice != null" >
+        company_price,
+      </if>
+      <if test="companyState != null" >
+        company_state,
+      </if>
+      <if test="clientState != null" >
+        client_state,
+      </if>
+      <if test="companyAccount != null" >
+        company_account,
+      </if>
+      <if test="clientAccount != null" >
+        client_account,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderPicid != null" >
+        #{orderPicid,jdbcType=BIGINT},
+      </if>
+      <if test="orderUserid != null" >
+        #{orderUserid,jdbcType=BIGINT},
+      </if>
+      <if test="orderUpload != null" >
+        #{orderUpload,jdbcType=BIGINT},
+      </if>
+      <if test="copyrightName != null" >
+        #{copyrightName,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightNumber != null" >
+        #{copyrightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightTelephone != null" >
+        #{copyrightTelephone,jdbcType=BIGINT},
+      </if>
+      <if test="application != null" >
+        #{application,jdbcType=INTEGER},
+      </if>
+      <if test="countryRange != null" >
+        #{countryRange,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="payAccount != null" >
+        #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBox != null" >
+        #{emailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAdress != null" >
+        #{emailAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="payState != null" >
+        #{payState,jdbcType=INTEGER},
+      </if>
+      <if test="contractState != null" >
+        #{contractState,jdbcType=INTEGER},
+      </if>
+      <if test="copyrightOwner != null" >
+        #{copyrightOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerNumber != null" >
+        #{ownerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPrice != null" >
+        #{companyPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="companyState != null" >
+        #{companyState,jdbcType=INTEGER},
+      </if>
+      <if test="clientState != null" >
+        #{clientState,jdbcType=INTEGER},
+      </if>
+      <if test="companyAccount != null" >
+        #{companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAccount != null" >
+        #{clientAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.entity.MyOrderExample" resultType="java.lang.Integer" >
+    select count(*) from my_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update my_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderPicid != null" >
+        order_picid = #{record.orderPicid,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderUserid != null" >
+        order_userid = #{record.orderUserid,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderUpload != null" >
+        order_upload = #{record.orderUpload,jdbcType=BIGINT},
+      </if>
+      <if test="record.copyrightName != null" >
+        copyright_name = #{record.copyrightName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.copyrightNumber != null" >
+        copyright_number = #{record.copyrightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.copyrightTelephone != null" >
+        copyright_telephone = #{record.copyrightTelephone,jdbcType=BIGINT},
+      </if>
+      <if test="record.application != null" >
+        application = #{record.application,jdbcType=INTEGER},
+      </if>
+      <if test="record.countryRange != null" >
+        country_range = #{record.countryRange,jdbcType=INTEGER},
+      </if>
+      <if test="record.startTime != null" >
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.payAccount != null" >
+        pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailBox != null" >
+        email_box = #{record.emailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailAdress != null" >
+        email_adress = #{record.emailAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payState != null" >
+        pay_state = #{record.payState,jdbcType=INTEGER},
+      </if>
+      <if test="record.contractState != null" >
+        contract_state = #{record.contractState,jdbcType=INTEGER},
+      </if>
+      <if test="record.copyrightOwner != null" >
+        copyright_owner = #{record.copyrightOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerNumber != null" >
+        owner_number = #{record.ownerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPrice != null" >
+        company_price = #{record.companyPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.companyState != null" >
+        company_state = #{record.companyState,jdbcType=INTEGER},
+      </if>
+      <if test="record.clientState != null" >
+        client_state = #{record.clientState,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyAccount != null" >
+        company_account = #{record.companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientAccount != null" >
+        client_account = #{record.clientAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payTime != null" >
+        pay_time = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update my_order
+    set id = #{record.id,jdbcType=BIGINT},
+      order_picid = #{record.orderPicid,jdbcType=BIGINT},
+      order_userid = #{record.orderUserid,jdbcType=BIGINT},
+      order_upload = #{record.orderUpload,jdbcType=BIGINT},
+      copyright_name = #{record.copyrightName,jdbcType=VARCHAR},
+      copyright_number = #{record.copyrightNumber,jdbcType=VARCHAR},
+      copyright_telephone = #{record.copyrightTelephone,jdbcType=BIGINT},
+      application = #{record.application,jdbcType=INTEGER},
+      country_range = #{record.countryRange,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      price = #{record.price,jdbcType=DOUBLE},
+      pay_account = #{record.payAccount,jdbcType=VARCHAR},
+      email_box = #{record.emailBox,jdbcType=VARCHAR},
+      email_adress = #{record.emailAdress,jdbcType=VARCHAR},
+      pay_state = #{record.payState,jdbcType=INTEGER},
+      contract_state = #{record.contractState,jdbcType=INTEGER},
+      copyright_owner = #{record.copyrightOwner,jdbcType=VARCHAR},
+      owner_number = #{record.ownerNumber,jdbcType=VARCHAR},
+      company_price = #{record.companyPrice,jdbcType=DOUBLE},
+      company_state = #{record.companyState,jdbcType=INTEGER},
+      client_state = #{record.clientState,jdbcType=INTEGER},
+      company_account = #{record.companyAccount,jdbcType=VARCHAR},
+      client_account = #{record.clientAccount,jdbcType=VARCHAR},
+      pay_time = #{record.payTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.entity.MyOrder" >
+    update my_order
+    <set >
+      <if test="orderPicid != null" >
+        order_picid = #{orderPicid,jdbcType=BIGINT},
+      </if>
+      <if test="orderUserid != null" >
+        order_userid = #{orderUserid,jdbcType=BIGINT},
+      </if>
+      <if test="orderUpload != null" >
+        order_upload = #{orderUpload,jdbcType=BIGINT},
+      </if>
+      <if test="copyrightName != null" >
+        copyright_name = #{copyrightName,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightNumber != null" >
+        copyright_number = #{copyrightNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="copyrightTelephone != null" >
+        copyright_telephone = #{copyrightTelephone,jdbcType=BIGINT},
+      </if>
+      <if test="application != null" >
+        application = #{application,jdbcType=INTEGER},
+      </if>
+      <if test="countryRange != null" >
+        country_range = #{countryRange,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="payAccount != null" >
+        pay_account = #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBox != null" >
+        email_box = #{emailBox,jdbcType=VARCHAR},
+      </if>
+      <if test="emailAdress != null" >
+        email_adress = #{emailAdress,jdbcType=VARCHAR},
+      </if>
+      <if test="payState != null" >
+        pay_state = #{payState,jdbcType=INTEGER},
+      </if>
+      <if test="contractState != null" >
+        contract_state = #{contractState,jdbcType=INTEGER},
+      </if>
+      <if test="copyrightOwner != null" >
+        copyright_owner = #{copyrightOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerNumber != null" >
+        owner_number = #{ownerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPrice != null" >
+        company_price = #{companyPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="companyState != null" >
+        company_state = #{companyState,jdbcType=INTEGER},
+      </if>
+      <if test="clientState != null" >
+        client_state = #{clientState,jdbcType=INTEGER},
+      </if>
+      <if test="companyAccount != null" >
+        company_account = #{companyAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="clientAccount != null" >
+        client_account = #{clientAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.entity.MyOrder" >
+    update my_order
+    set order_picid = #{orderPicid,jdbcType=BIGINT},
+      order_userid = #{orderUserid,jdbcType=BIGINT},
+      order_upload = #{orderUpload,jdbcType=BIGINT},
+      copyright_name = #{copyrightName,jdbcType=VARCHAR},
+      copyright_number = #{copyrightNumber,jdbcType=VARCHAR},
+      copyright_telephone = #{copyrightTelephone,jdbcType=BIGINT},
+      application = #{application,jdbcType=INTEGER},
+      country_range = #{countryRange,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      price = #{price,jdbcType=DOUBLE},
+      pay_account = #{payAccount,jdbcType=VARCHAR},
+      email_box = #{emailBox,jdbcType=VARCHAR},
+      email_adress = #{emailAdress,jdbcType=VARCHAR},
+      pay_state = #{payState,jdbcType=INTEGER},
+      contract_state = #{contractState,jdbcType=INTEGER},
+      copyright_owner = #{copyrightOwner,jdbcType=VARCHAR},
+      owner_number = #{ownerNumber,jdbcType=VARCHAR},
+      company_price = #{companyPrice,jdbcType=DOUBLE},
+      company_state = #{companyState,jdbcType=INTEGER},
+      client_state = #{clientState,jdbcType=INTEGER},
+      company_account = #{companyAccount,jdbcType=VARCHAR},
+      client_account = #{clientAccount,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

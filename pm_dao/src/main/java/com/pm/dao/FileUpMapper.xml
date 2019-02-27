@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pm.dao.FileUpMapper" >
+
+
+  <!--公共表-->
+  <sql id="rootsql">
+    select a.*,
+    b.id did,b.keyname dkeyname,
+    c.id cid,c.keyname ckeyname,
+    d.id did,d.realname drealname,d.telephone dtelephone,d.email demail,d.qq dqq,d.adress dadress,d.admin dadmin
+    from file_up a
+    left join my_keyword b
+    on a.keyone = b.id
+    left join my_keyword c
+    on a.keytwo = c.id
+    left join user d
+    on a.user_id = d.id
+  </sql>
+
+  <resultMap id="fileup_keyword" type="com.pm.entity.FileUp" >
+    <result column="id" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="file_name" property="fileName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="file_path" property="filePath" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="fille_pathbig" property="fillePathbig" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="file_pathmid" property="filePathmid" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="file_pathsmall" property="filePathsmall" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="file_pathshow" property="filePathshow" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="state_id" property="stateId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="mode" property="mode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="cameraman" property="cameraman" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="picture_name" property="pictureName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="index_slide" property="indexSlide" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="index_animal" property="indexAnimal" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="index_plant" property="indexPlant" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="index_scape" property="indexScape" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="instruction" property="instruction" jdbcType="VARCHAR" javaType="java.lang.String"  />
+    <result column="owner" property="owner" jdbcType="VARCHAR" javaType="java.lang.String"  />
+    <result column="owner_number" property="ownerNumber" jdbcType="VARCHAR" javaType="java.lang.String"  />
+    <result column="reason" property="reason" jdbcType="VARCHAR" javaType="java.lang.String"  />
+    <result column="direction" property="direction" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="species" property="species" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="keyone" property="keyone" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="keytwo" property="keytwo" jdbcType="BIGINT" javaType="java.lang.Long" />
+    <result column="keythree" property="keythree" jdbcType="VARCHAR" javaType="java.lang.String"  />
+    <result column="index_video" property="indexVideo" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="path_price" property="pathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    <result column="bigpath_price" property="bigpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    <result column="midpath_price"  property="midpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    <result column="smallpath_price" property="smallpathPrice" jdbcType="DOUBLE" javaType="java.lang.Double" />
+
+    <association property="myKeywordEntity" javaType="com.pm.entity.MyKeyword">
+      <id column="did" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="dkeyname" property="keyname" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </association>
+
+    <association property="myKeywordEntityc" javaType="com.pm.entity.MyKeyword">
+      <id column="cid" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="ckeyname" property="keyname" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </association>
+
+    <association property="myUser" javaType="com.pm.entity.User">
+      <id column="did" property="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="drealname" property="realname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dtelephone" property="telephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <result column="demail" property="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dqq" property="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dadress" property="adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="dadmin" property="admin" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </association>
+
+
+  </resultMap>
+
+
+
+  <!-- 批量查询公司发布-->
+  <select id="selectCompanyPost" parameterType="INTEGER" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and fille_pathbig != '' ORDER BY a.id DESC
+  </select>
+
+  <!-- 批量查询公司发布-->
+  <select id="selectCompanyPostVideo" parameterType="INTEGER" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and fille_pathbig IS NULL
+  </select>
+
+
+  <!-- 批量查询用户上传和公司上传-->
+  <select id="selectClientUpload" parameterType="INTEGER" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and user_id = ${userId} and fille_pathbig != ''
+  </select>
+
+
+  <!-- 批量查询用户上传和公司上传-->
+  <select id="selectClientUploadVideo" parameterType="INTEGER" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and user_id = ${userId} and fille_pathbig IS NULL ORDER BY a.id DESC
+  </select>
+
+
+  <!-- 批量查询公司发布-->
+  <select id="selectCompanyPostSearch" parameterType="string" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and fille_pathbig != '' and a.id like '%${id}%'
+  </select>
+
+
+
+
+
+
+  <!--带关联表的查询图片对象-->
+  <select id="searchByKeyWord" parameterType="string" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and ( a.picture_name like '%${keyword}%' or a.instruction like '%${keyword}%' or a.cameraman like '%${keyword}%' or a.keythree like '%${keyword}%' or b.keyname like '%${keyword}%' or c.keyname like '%${keyword}%' )
+  </select>
+
+
+  <!-- 批量查询竖直图-->
+  <select id="selectVertical" parameterType="java.util.Map" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and direction = ${direction} and ( a.picture_name like '%${keyword}%' or a.instruction like '%${keyword}%' or a.cameraman like '%${keyword}%' or a.keythree like '%${keyword}%' or b.keyname like '%${keyword}%' or c.keyname like '%${keyword}%' )
+  </select>
+
+  <!-- 批量查询授权模式-->
+  <select id="selectMode" parameterType="java.util.Map" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and mode = ${mode} and ( a.picture_name like '%${keyword}%' or a.instruction like '%${keyword}%' or a.cameraman like '%${keyword}%' or a.keythree like '%${keyword}%' or b.keyname like '%${keyword}%' or c.keyname like '%${keyword}%' )
+  </select>
+
+  <!-- 批量查询授权模式-->
+  <select id="selectSpice" parameterType="java.util.Map" resultMap="fileup_keyword">
+    <include refid="rootsql"/> where state_id = ${stateId} and species = ${spice} and ( a.picture_name like '%${keyword}%' or a.instruction like '%${keyword}%' or a.cameraman like '%${keyword}%' or a.keythree like '%${keyword}%' or b.keyname like '%${keyword}%' or c.keyname like '%${keyword}%' )
+  </select>
+
+  <select id="selectFileById" parameterType="long" resultMap="fileup_keyword" >
+    <include refid="rootsql"></include> where a.id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+
+
+  <resultMap id="BaseResultMap" type="com.pm.entity.FileUp" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="file_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="file_path" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fille_pathbig" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="file_pathmid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="file_pathsmall" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="file_pathshow" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="state_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="mode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="cameraman" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="picture_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="index_slide" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="index_animal" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="index_plant" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="index_scape" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="instruction" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_number" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="reason" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="direction" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="species" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="keyone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="keytwo" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="keythree" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="index_video" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="path_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="bigpath_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="midpath_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="smallpath_price" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, file_name, file_path, fille_pathbig, file_pathmid, file_pathsmall, file_pathshow, 
+    user_id, state_id, mode, cameraman, picture_name, index_slide, index_animal, index_plant, 
+    index_scape, instruction, owner, owner_number, reason, direction, species, keyone, 
+    keytwo, keythree, index_video, path_price, bigpath_price, midpath_price, smallpath_price
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pm.entity.FileUpExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from file_up
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from file_up
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from file_up
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.entity.FileUpExample" >
+    delete from file_up
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.entity.FileUp" >
+    insert into file_up (id, file_name, file_path, 
+      fille_pathbig, file_pathmid, file_pathsmall, 
+      file_pathshow, user_id, state_id, 
+      mode, cameraman, picture_name, 
+      index_slide, index_animal, index_plant, 
+      index_scape, instruction, owner, 
+      owner_number, reason, direction, 
+      species, keyone, keytwo, 
+      keythree, index_video, path_price, 
+      bigpath_price, midpath_price, smallpath_price
+      )
+    values (#{id,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{fillePathbig,jdbcType=VARCHAR}, #{filePathmid,jdbcType=VARCHAR}, #{filePathsmall,jdbcType=VARCHAR}, 
+      #{filePathshow,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{stateId,jdbcType=INTEGER}, 
+      #{mode,jdbcType=INTEGER}, #{cameraman,jdbcType=VARCHAR}, #{pictureName,jdbcType=VARCHAR}, 
+      #{indexSlide,jdbcType=INTEGER}, #{indexAnimal,jdbcType=INTEGER}, #{indexPlant,jdbcType=INTEGER}, 
+      #{indexScape,jdbcType=INTEGER}, #{instruction,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, 
+      #{ownerNumber,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, #{direction,jdbcType=INTEGER}, 
+      #{species,jdbcType=INTEGER}, #{keyone,jdbcType=BIGINT}, #{keytwo,jdbcType=BIGINT}, 
+      #{keythree,jdbcType=VARCHAR}, #{indexVideo,jdbcType=INTEGER}, #{pathPrice,jdbcType=DOUBLE}, 
+      #{bigpathPrice,jdbcType=DOUBLE}, #{midpathPrice,jdbcType=DOUBLE}, #{smallpathPrice,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.entity.FileUp" >
+    insert into file_up
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fileName != null" >
+        file_name,
+      </if>
+      <if test="filePath != null" >
+        file_path,
+      </if>
+      <if test="fillePathbig != null" >
+        fille_pathbig,
+      </if>
+      <if test="filePathmid != null" >
+        file_pathmid,
+      </if>
+      <if test="filePathsmall != null" >
+        file_pathsmall,
+      </if>
+      <if test="filePathshow != null" >
+        file_pathshow,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="stateId != null" >
+        state_id,
+      </if>
+      <if test="mode != null" >
+        mode,
+      </if>
+      <if test="cameraman != null" >
+        cameraman,
+      </if>
+      <if test="pictureName != null" >
+        picture_name,
+      </if>
+      <if test="indexSlide != null" >
+        index_slide,
+      </if>
+      <if test="indexAnimal != null" >
+        index_animal,
+      </if>
+      <if test="indexPlant != null" >
+        index_plant,
+      </if>
+      <if test="indexScape != null" >
+        index_scape,
+      </if>
+      <if test="instruction != null" >
+        instruction,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="ownerNumber != null" >
+        owner_number,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="direction != null" >
+        direction,
+      </if>
+      <if test="species != null" >
+        species,
+      </if>
+      <if test="keyone != null" >
+        keyone,
+      </if>
+      <if test="keytwo != null" >
+        keytwo,
+      </if>
+      <if test="keythree != null" >
+        keythree,
+      </if>
+      <if test="indexVideo != null" >
+        index_video,
+      </if>
+      <if test="pathPrice != null" >
+        path_price,
+      </if>
+      <if test="bigpathPrice != null" >
+        bigpath_price,
+      </if>
+      <if test="midpathPrice != null" >
+        midpath_price,
+      </if>
+      <if test="smallpathPrice != null" >
+        smallpath_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fileName != null" >
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fillePathbig != null" >
+        #{fillePathbig,jdbcType=VARCHAR},
+      </if>
+      <if test="filePathmid != null" >
+        #{filePathmid,jdbcType=VARCHAR},
+      </if>
+      <if test="filePathsmall != null" >
+        #{filePathsmall,jdbcType=VARCHAR},
+      </if>
+      <if test="filePathshow != null" >
+        #{filePathshow,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stateId != null" >
+        #{stateId,jdbcType=INTEGER},
+      </if>
+      <if test="mode != null" >
+        #{mode,jdbcType=INTEGER},
+      </if>
+      <if test="cameraman != null" >
+        #{cameraman,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureName != null" >
+        #{pictureName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexSlide != null" >
+        #{indexSlide,jdbcType=INTEGER},
+      </if>
+      <if test="indexAnimal != null" >
+        #{indexAnimal,jdbcType=INTEGER},
+      </if>
+      <if test="indexPlant != null" >
+        #{indexPlant,jdbcType=INTEGER},
+      </if>
+      <if test="indexScape != null" >
+        #{indexScape,jdbcType=INTEGER},
+      </if>
+      <if test="instruction != null" >
+        #{instruction,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerNumber != null" >
+        #{ownerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=INTEGER},
+      </if>
+      <if test="species != null" >
+        #{species,jdbcType=INTEGER},
+      </if>
+      <if test="keyone != null" >
+        #{keyone,jdbcType=BIGINT},
+      </if>
+      <if test="keytwo != null" >
+        #{keytwo,jdbcType=BIGINT},
+      </if>
+      <if test="keythree != null" >
+        #{keythree,jdbcType=VARCHAR},
+      </if>
+      <if test="indexVideo != null" >
+        #{indexVideo,jdbcType=INTEGER},
+      </if>
+      <if test="pathPrice != null" >
+        #{pathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="bigpathPrice != null" >
+        #{bigpathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="midpathPrice != null" >
+        #{midpathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="smallpathPrice != null" >
+        #{smallpathPrice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.entity.FileUpExample" resultType="java.lang.Integer" >
+    select count(*) from file_up
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update file_up
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.fileName != null" >
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null" >
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fillePathbig != null" >
+        fille_pathbig = #{record.fillePathbig,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePathmid != null" >
+        file_pathmid = #{record.filePathmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePathsmall != null" >
+        file_pathsmall = #{record.filePathsmall,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePathshow != null" >
+        file_pathshow = #{record.filePathshow,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stateId != null" >
+        state_id = #{record.stateId,jdbcType=INTEGER},
+      </if>
+      <if test="record.mode != null" >
+        mode = #{record.mode,jdbcType=INTEGER},
+      </if>
+      <if test="record.cameraman != null" >
+        cameraman = #{record.cameraman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictureName != null" >
+        picture_name = #{record.pictureName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexSlide != null" >
+        index_slide = #{record.indexSlide,jdbcType=INTEGER},
+      </if>
+      <if test="record.indexAnimal != null" >
+        index_animal = #{record.indexAnimal,jdbcType=INTEGER},
+      </if>
+      <if test="record.indexPlant != null" >
+        index_plant = #{record.indexPlant,jdbcType=INTEGER},
+      </if>
+      <if test="record.indexScape != null" >
+        index_scape = #{record.indexScape,jdbcType=INTEGER},
+      </if>
+      <if test="record.instruction != null" >
+        instruction = #{record.instruction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owner != null" >
+        owner = #{record.owner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerNumber != null" >
+        owner_number = #{record.ownerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reason != null" >
+        reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.direction != null" >
+        direction = #{record.direction,jdbcType=INTEGER},
+      </if>
+      <if test="record.species != null" >
+        species = #{record.species,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyone != null" >
+        keyone = #{record.keyone,jdbcType=BIGINT},
+      </if>
+      <if test="record.keytwo != null" >
+        keytwo = #{record.keytwo,jdbcType=BIGINT},
+      </if>
+      <if test="record.keythree != null" >
+        keythree = #{record.keythree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexVideo != null" >
+        index_video = #{record.indexVideo,jdbcType=INTEGER},
+      </if>
+      <if test="record.pathPrice != null" >
+        path_price = #{record.pathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bigpathPrice != null" >
+        bigpath_price = #{record.bigpathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.midpathPrice != null" >
+        midpath_price = #{record.midpathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.smallpathPrice != null" >
+        smallpath_price = #{record.smallpathPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update file_up
+    set id = #{record.id,jdbcType=BIGINT},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      fille_pathbig = #{record.fillePathbig,jdbcType=VARCHAR},
+      file_pathmid = #{record.filePathmid,jdbcType=VARCHAR},
+      file_pathsmall = #{record.filePathsmall,jdbcType=VARCHAR},
+      file_pathshow = #{record.filePathshow,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      state_id = #{record.stateId,jdbcType=INTEGER},
+      mode = #{record.mode,jdbcType=INTEGER},
+      cameraman = #{record.cameraman,jdbcType=VARCHAR},
+      picture_name = #{record.pictureName,jdbcType=VARCHAR},
+      index_slide = #{record.indexSlide,jdbcType=INTEGER},
+      index_animal = #{record.indexAnimal,jdbcType=INTEGER},
+      index_plant = #{record.indexPlant,jdbcType=INTEGER},
+      index_scape = #{record.indexScape,jdbcType=INTEGER},
+      instruction = #{record.instruction,jdbcType=VARCHAR},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      owner_number = #{record.ownerNumber,jdbcType=VARCHAR},
+      reason = #{record.reason,jdbcType=VARCHAR},
+      direction = #{record.direction,jdbcType=INTEGER},
+      species = #{record.species,jdbcType=INTEGER},
+      keyone = #{record.keyone,jdbcType=BIGINT},
+      keytwo = #{record.keytwo,jdbcType=BIGINT},
+      keythree = #{record.keythree,jdbcType=VARCHAR},
+      index_video = #{record.indexVideo,jdbcType=INTEGER},
+      path_price = #{record.pathPrice,jdbcType=DOUBLE},
+      bigpath_price = #{record.bigpathPrice,jdbcType=DOUBLE},
+      midpath_price = #{record.midpathPrice,jdbcType=DOUBLE},
+      smallpath_price = #{record.smallpathPrice,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.entity.FileUp" >
+    update file_up
+    <set >
+      <if test="fileName != null" >
+        file_name = #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        file_path = #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fillePathbig != null" >
+        fille_pathbig = #{fillePathbig,jdbcType=VARCHAR},
+      </if>
+      <if test="filePathmid != null" >
+        file_pathmid = #{filePathmid,jdbcType=VARCHAR},
+      </if>
+      <if test="filePathsmall != null" >
+        file_pathsmall = #{filePathsmall,jdbcType=VARCHAR},
+      </if>
+      <if test="filePathshow != null" >
+        file_pathshow = #{filePathshow,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stateId != null" >
+        state_id = #{stateId,jdbcType=INTEGER},
+      </if>
+      <if test="mode != null" >
+        mode = #{mode,jdbcType=INTEGER},
+      </if>
+      <if test="cameraman != null" >
+        cameraman = #{cameraman,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureName != null" >
+        picture_name = #{pictureName,jdbcType=VARCHAR},
+      </if>
+      <if test="indexSlide != null" >
+        index_slide = #{indexSlide,jdbcType=INTEGER},
+      </if>
+      <if test="indexAnimal != null" >
+        index_animal = #{indexAnimal,jdbcType=INTEGER},
+      </if>
+      <if test="indexPlant != null" >
+        index_plant = #{indexPlant,jdbcType=INTEGER},
+      </if>
+      <if test="indexScape != null" >
+        index_scape = #{indexScape,jdbcType=INTEGER},
+      </if>
+      <if test="instruction != null" >
+        instruction = #{instruction,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerNumber != null" >
+        owner_number = #{ownerNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        direction = #{direction,jdbcType=INTEGER},
+      </if>
+      <if test="species != null" >
+        species = #{species,jdbcType=INTEGER},
+      </if>
+      <if test="keyone != null" >
+        keyone = #{keyone,jdbcType=BIGINT},
+      </if>
+      <if test="keytwo != null" >
+        keytwo = #{keytwo,jdbcType=BIGINT},
+      </if>
+      <if test="keythree != null" >
+        keythree = #{keythree,jdbcType=VARCHAR},
+      </if>
+      <if test="indexVideo != null" >
+        index_video = #{indexVideo,jdbcType=INTEGER},
+      </if>
+      <if test="pathPrice != null" >
+        path_price = #{pathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="bigpathPrice != null" >
+        bigpath_price = #{bigpathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="midpathPrice != null" >
+        midpath_price = #{midpathPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="smallpathPrice != null" >
+        smallpath_price = #{smallpathPrice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.entity.FileUp" >
+    update file_up
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      fille_pathbig = #{fillePathbig,jdbcType=VARCHAR},
+      file_pathmid = #{filePathmid,jdbcType=VARCHAR},
+      file_pathsmall = #{filePathsmall,jdbcType=VARCHAR},
+      file_pathshow = #{filePathshow,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      state_id = #{stateId,jdbcType=INTEGER},
+      mode = #{mode,jdbcType=INTEGER},
+      cameraman = #{cameraman,jdbcType=VARCHAR},
+      picture_name = #{pictureName,jdbcType=VARCHAR},
+      index_slide = #{indexSlide,jdbcType=INTEGER},
+      index_animal = #{indexAnimal,jdbcType=INTEGER},
+      index_plant = #{indexPlant,jdbcType=INTEGER},
+      index_scape = #{indexScape,jdbcType=INTEGER},
+      instruction = #{instruction,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=VARCHAR},
+      owner_number = #{ownerNumber,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
+      direction = #{direction,jdbcType=INTEGER},
+      species = #{species,jdbcType=INTEGER},
+      keyone = #{keyone,jdbcType=BIGINT},
+      keytwo = #{keytwo,jdbcType=BIGINT},
+      keythree = #{keythree,jdbcType=VARCHAR},
+      index_video = #{indexVideo,jdbcType=INTEGER},
+      path_price = #{pathPrice,jdbcType=DOUBLE},
+      bigpath_price = #{bigpathPrice,jdbcType=DOUBLE},
+      midpath_price = #{midpathPrice,jdbcType=DOUBLE},
+      smallpath_price = #{smallpathPrice,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!--批量更新审核状态id-->
+  <!--批量更新审核状态id-->
+
+  <!--批量更新审核状态id-->
+  <update id="updateBatch" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="state_id =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.stateId}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+
+  <!--退回编辑-->
+  <update id="backBatch" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="state_id =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.stateId}
+        </foreach>
+      </trim>
+      <trim prefix="user_id =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.userId}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+
+  <!--批量更新首页四个展示id-->
+  <update id="updateSlide" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="index_slide =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.indexSlide}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <update id="updateAnimal" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="index_animal =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.indexAnimal}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <update id="updatePlant" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="index_plant =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.indexPlant}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <update id="updateScape" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="index_scape =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.indexScape}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+
+  <update id="updateVideo" parameterType="java.util.List">
+    update file_up
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="index_video =case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when id=#{item.id} then #{item.indexVideo}
+        </foreach>
+      </trim>
+    </trim>
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+
+  <!--批量删除上传错的图片-->
+  <delete id="DeleteBatch" parameterType="java.util.List">
+    SET FOREIGN_KEY_CHECKS = 0;
+    delete from file_up
+    where id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item.id,jdbcType=INTEGER}
+    </foreach>
+    ;
+    SET  FOREIGN_KEY_CHECKS = 1;
+  </delete>
+
+
+  <!-- 批量查询公司 轮播标记-->
+  <select id="selectCompanySlide" parameterType="INTEGER" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from file_up where index_slide = ${indexSlide}
+  </select>
+
+  <!-- 批量查询公司动物标记-->
+  <select id="selectCompanyAnimal" parameterType="INTEGER" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from file_up where index_animal = ${indexAnimal}
+  </select>
+
+  <!-- 批量查询公司植物标记-->
+  <select id="selectCompanyPlant" parameterType="INTEGER" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from file_up where index_plant = ${indexPlant}
+  </select>
+
+  <!-- 批量查询公司风景标记-->
+  <select id="selectCompanyScape" parameterType="INTEGER" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from file_up where index_scape = ${indexScape}
+  </select>
+
+  <!-- 批量查询公司风景标记-->
+  <select id="selectCompanyVideo" parameterType="INTEGER" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from file_up where index_video = ${indexVideo}
+  </select>
+
+
+
+
+
+</mapper>

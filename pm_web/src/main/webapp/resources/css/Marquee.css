@@ -1,0 +1,27 @@
+
+*{margin:0;padding:0;list-style-type:none;}
+body{font-size:12px;line-height:180%;font-family:"宋体",Arial, Helvetica, sans-serif;}
+a,img{border:0;}
+a{color:#333;}
+a:hover{color:#3366cc;text-decoration:none;}
+.demopage{width:960px;margin:0 auto;}
+.demopage h2{font-size:14px;margin:20px 0;}
+
+/* #marquee2 */
+#marquee2{width:220px;height:740px;overflow:hidden;}
+#marquee2 ul li{float:left;border:1px solid #ddd;height:150px;padding:5px;}
+#marquee2 ul li img{display:block;}
+
+
+
+/* #marquee3 */
+.marqueebox{position:relative;width:620px;height:340px;border:1px solid #333;}
+#marquee3{width:620px;height:340px;overflow:hidden;}
+#marquee3 ul li{float:left;}
+#marquee3 ul li img{display:block;}
+#mar3Nav{position:absolute;right:10px;bottom:10px;}
+#mar3Nav li{float:left;margin:0 3px;width:16px;height:16px;background:#333;border:1px solid #FFF;cursor:pointer;line-height:16px;font-family:Arial;font-size:10px;color:#FFF;text-align:center;}
+#mar3Nav li.navOn{background:#FF6600;}
+
+/* control */
+.control{height:60px;line-height:24px;overflow:hidden;padding:15px 0 0 0;}

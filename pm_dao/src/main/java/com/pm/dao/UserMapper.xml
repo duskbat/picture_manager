@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pm.dao.UserMapper" >
+
+
+  <!--公共表-->
+  <sql id="rootsql">
+    select a.*
+    from user a
+  </sql>
+
+  <resultMap id="user_list" type="com.pm.entity.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="adress" property="adress" jdbcType="VARCHAR"  />
+    <result column="email" property="email" jdbcType="VARCHAR"  />
+    <result column="telephone" property="telephone" jdbcType="BIGINT"  />
+    <result column="wechat" property="wechat" jdbcType="VARCHAR"  />
+    <result column="qq" property="qq" jdbcType="VARCHAR"  />
+    <result column="company" property="company" jdbcType="VARCHAR"  />
+    <result column="workphone" property="workphone" jdbcType="VARCHAR"  />
+    <result column="admin" property="admin" jdbcType="VARCHAR"  />
+    <result column="realname" property="realname" jdbcType="VARCHAR"  />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR"  />
+    <result column="company_number" property="companyNumber" jdbcType="BIGINT"  />
+    <result column="captcha" property="captcha" jdbcType="VARCHAR"  />
+
+  </resultMap>
+
+  <!--登录验证-->
+  <select id="selectByUsernameAndPassword" resultMap="user_list" >
+    <include refid="rootsql"></include>
+    where  username=#{0} and  password=#{1}
+  </select>
+
+  <select id="selectByUsername" resultMap="user_list" >
+    <include refid="rootsql"></include>
+    where  username=#{0}
+  </select>
+
+  <select id="selectRealname" resultMap="user_list" >
+    <include refid="rootsql"></include> where  realname like '%${realname}%'
+  </select>
+
+  <!--通过邮箱验证是否存在这个用户-->
+  <select id="queryUserByEmail" parameterType="String" resultMap="user_list" >
+    <include refid="rootsql"/> where email= '${email}'
+  </select>
+
+
+  <!-- 更新验证码 -->
+  <update id="updateUserCaptcha" parameterType="java.util.HashMap">
+    update user set captcha= '${captcha}' where email= '${email}'
+  </update>
+
+
+  <!-- 更新用户密码 -->
+  <update id="updateUserPwd" parameterType="java.util.HashMap">
+    update user set password= '${password}' where id=#{id}
+  </update>
+
+
+
+  <resultMap id="BaseResultMap" type="com.pm.entity.User" >
+    <constructor >
+      <idArg column="id" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="nickname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="adress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="telephone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="wechat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="qq" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="company" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="workphone" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="admin" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="realname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="idcard" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="company_number" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="captcha" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="paycode" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, username, password, nickname, adress, email, telephone, wechat, qq, company, 
+    workphone, admin, realname, idcard, company_number, captcha, paycode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pm.entity.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pm.entity.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pm.entity.User" >
+    insert into user (id, username, password, 
+      nickname, adress, email, 
+      telephone, wechat, qq, 
+      company, workphone, admin, 
+      realname, idcard, company_number, 
+      captcha, paycode)
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{adress,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=BIGINT}, #{wechat,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{company,jdbcType=VARCHAR}, #{workphone,jdbcType=VARCHAR}, #{admin,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{companyNumber,jdbcType=BIGINT}, 
+      #{captcha,jdbcType=VARCHAR}, #{paycode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.entity.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="adress != null" >
+        adress,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="wechat != null" >
+        wechat,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="workphone != null" >
+        workphone,
+      </if>
+      <if test="admin != null" >
+        admin,
+      </if>
+      <if test="realname != null" >
+        realname,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+      <if test="companyNumber != null" >
+        company_number,
+      </if>
+      <if test="captcha != null" >
+        captcha,
+      </if>
+      <if test="paycode != null" >
+        paycode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null" >
+        #{adress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=BIGINT},
+      </if>
+      <if test="wechat != null" >
+        #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="workphone != null" >
+        #{workphone,jdbcType=VARCHAR},
+      </if>
+      <if test="admin != null" >
+        #{admin,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNumber != null" >
+        #{companyNumber,jdbcType=BIGINT},
+      </if>
+      <if test="captcha != null" >
+        #{captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="paycode != null" >
+        #{paycode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pm.entity.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adress != null" >
+        adress = #{record.adress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=BIGINT},
+      </if>
+      <if test="record.wechat != null" >
+        wechat = #{record.wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null" >
+        qq = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null" >
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workphone != null" >
+        workphone = #{record.workphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.admin != null" >
+        admin = #{record.admin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        realname = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyNumber != null" >
+        company_number = #{record.companyNumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.captcha != null" >
+        captcha = #{record.captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paycode != null" >
+        paycode = #{record.paycode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set id = #{record.id,jdbcType=BIGINT},
+      username = #{record.username,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      adress = #{record.adress,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=BIGINT},
+      wechat = #{record.wechat,jdbcType=VARCHAR},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      company = #{record.company,jdbcType=VARCHAR},
+      workphone = #{record.workphone,jdbcType=VARCHAR},
+      admin = #{record.admin,jdbcType=VARCHAR},
+      realname = #{record.realname,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR},
+      company_number = #{record.companyNumber,jdbcType=BIGINT},
+      captcha = #{record.captcha,jdbcType=VARCHAR},
+      paycode = #{record.paycode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pm.entity.User" >
+    update user
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null" >
+        adress = #{adress,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=BIGINT},
+      </if>
+      <if test="wechat != null" >
+        wechat = #{wechat,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="workphone != null" >
+        workphone = #{workphone,jdbcType=VARCHAR},
+      </if>
+      <if test="admin != null" >
+        admin = #{admin,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNumber != null" >
+        company_number = #{companyNumber,jdbcType=BIGINT},
+      </if>
+      <if test="captcha != null" >
+        captcha = #{captcha,jdbcType=VARCHAR},
+      </if>
+      <if test="paycode != null" >
+        paycode = #{paycode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pm.entity.User" >
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      adress = #{adress,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=BIGINT},
+      wechat = #{wechat,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      workphone = #{workphone,jdbcType=VARCHAR},
+      admin = #{admin,jdbcType=VARCHAR},
+      realname = #{realname,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      company_number = #{companyNumber,jdbcType=BIGINT},
+      captcha = #{captcha,jdbcType=VARCHAR},
+      paycode = #{paycode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
