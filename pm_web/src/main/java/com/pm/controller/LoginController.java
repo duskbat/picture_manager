@@ -32,17 +32,16 @@ public class LoginController {
     LoginService loginService;
 
     @RequestMapping("/login")
-    public String toLogin(Model model, String username, String password, HttpSession session,HttpServletRequest request){
-        User user=loginService.getUser(username,password);
-        if(user==null){
+    public String toLogin(Model model, String username, String password, HttpSession session, HttpServletRequest request) {
+        User user = loginService.getUser(username, password);
+        if (user == null) {
             List<MyKeyword> keywords = loginService.selectKeyword();
             model.addAttribute("keywords", keywords);
             return "redirect:/login.jsp";
-        }
-        else{
+        } else {
             session.setAttribute("user", user);
 
-            if(user.getAdmin().equals("管理员")){
+            if (user.getAdmin().equals("管理员")) {
 
                 return "forward:/company_auditing";
             }
@@ -53,7 +52,7 @@ public class LoginController {
 
 
     @RequestMapping("/login_out")
-    public String logout(HttpSession session,Model model){
+    public String logout(HttpSession session, Model model) {
         session.removeAttribute("user");
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
@@ -62,7 +61,7 @@ public class LoginController {
 
 
     @RequestMapping("/register")
-    public String register(Model model){
+    public String register(Model model) {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
         return "redirect:/register.jsp";
@@ -71,12 +70,12 @@ public class LoginController {
 
     @RequestMapping("/checkName")
     @ResponseBody
-    public String checkName(Model model,@RequestBody String username){
+    public String checkName(Model model, @RequestBody String username) {
         System.out.println(username);
         User user = loginService.checkName(username);
-        if(user==null){
+        if (user == null) {
             return "notuser";
-        }else{
+        } else {
             return "isuser";
         }
 
@@ -84,15 +83,14 @@ public class LoginController {
     }
 
 
-
     @RequestMapping("/registerForm")
-    public String registerForm(String username,String password,String nickname,String email,String admin){
-        loginService.addUser(username, password, nickname, email,admin);
+    public String registerForm(String username, String password, String nickname, String email, String admin) {
+        loginService.addUser(username, password, nickname, email, admin);
         return "redirect:/login.jsp";
     }
 
     @RequestMapping("/find_password")
-    public String find_password(Model model){
+    public String find_password(Model model) {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
         return "redirect:/find_password.jsp";
@@ -102,37 +100,38 @@ public class LoginController {
      * 请求发送邮件，目前来说只有找回密码有发送邮件功能，如果多个功能都有，就要考虑复用性和url名字可识性
      * Created by gf on 2017年7月19日
      * 改为ajax方式 2017-07-25
+     *
      * @param email
      * @return
      */
 
     @RequestMapping("/sendEmail")
     @ResponseBody
-    public Map sendEmail(@RequestBody String email){
+    public Map sendEmail(@RequestBody String email) {
         HashMap map = new HashMap();
 
         //根据给定的邮箱发送邮件
         User user = loginService.queryUserByEmail(email);
 
-        if(user==null){
+        if (user == null) {
             //用户为空，说明填写的邮箱就不对
             map.put("success", false);
-            map.put("message","邮箱账号不存在");
+            map.put("message", "邮箱账号不存在");
             return map;
         }
         //先生成验证码，先发送邮件，发送成功后保存验证码
         String captcha = RandomCode.randomString(4);
         //先发送验证码，发送成功了再保存到数据库
-        boolean b = SendEmailUtil.sendPasswordCaptchaEmail(email,captcha);
-        if(b){
+        boolean b = SendEmailUtil.sendPasswordCaptchaEmail(email, captcha);
+        if (b) {
             //发送成功，保存
             map.put("success", true);
             map.put("message", "验证码已发送到您的邮箱，请注意查收");
-            loginService.updateUserCaptcha(email,captcha);
-        }else{
+            loginService.updateUserCaptcha(email, captcha);
+        } else {
             //发送失败，提醒
             map.put("success", false);
-            map.put("message","验证码发送失败，请检查邮箱账号");
+            map.put("message", "验证码发送失败，请检查邮箱账号");
         }
 
         return map;
@@ -146,16 +145,16 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/submitCaptcha")
-    public String submitCaptcha(String email,String captcha,Model model){
+    public String submitCaptcha(String email, String captcha, Model model) {
 
         //校验验证码和邮箱信息是否有效
         User user = loginService.queryUserByEmail(email);
 
-        if(user==null){
+        if (user == null) {
             //用户为空，说明填写的邮箱就不对
-            model.addAttribute("message","邮箱账号不存在");
-        }else{
-            if(captcha!=null&&!captcha.equals("")&&captcha.equals(user.getCaptcha())){
+            model.addAttribute("message", "邮箱账号不存在");
+        } else {
+            if (captcha != null && !captcha.equals("") && captcha.equals(user.getCaptcha())) {
 
 
                 //验证成功了，返回重置密码的页面
@@ -163,9 +162,9 @@ public class LoginController {
                 model.addAttribute("captcha", captcha);
 
                 return "forward:/reset_password.jsp";
-            }else{
+            } else {
                 //验证码不对或验证码不存在
-                model.addAttribute("message","验证码不正确或不存在");
+                model.addAttribute("message", "验证码不正确或不存在");
             }
         }
         return "redirect:/find_password.jsp";
@@ -178,25 +177,24 @@ public class LoginController {
      * @return
      */
     @RequestMapping("/resetPass")
-    public String resetPass(String email,String captcha,String password,Model model){
+    public String resetPass(String email, String captcha, String password, Model model) {
         //重置密码
         //先检查提交的邮箱和验证码信息是否有效，和上一步的验证一样，然后再去更新此邮箱的用户密码
         //这里都省略了数据校验
         //校验验证码和邮箱信息是否有效
         User user = loginService.queryUserByEmail(email);
 
-        System.out.println(email+"666666666666");
-        System.out.println(captcha+"8888888888");
-        System.out.println(password+"9999999999");
+        System.out.println(email + "666666666666");
+        System.out.println(captcha + "8888888888");
+        System.out.println(password + "9999999999");
 
 
-
-        if(user==null){
+        if (user == null) {
             //用户为空，说明填写的邮箱就不对
-            model.addAttribute("message","邮箱账号不存在");
-        }else{
+            model.addAttribute("message", "邮箱账号不存在");
+        } else {
 
-            if(captcha!=null&&!captcha.equals("")&&captcha.equals(user.getCaptcha())){
+            if (captcha != null && !captcha.equals("") && captcha.equals(user.getCaptcha())) {
                 //验证成功了，返回重置密码的页面
                 //验证成功了，更新密码，然后跳转到首页，重新让用户登录
                 loginService.updateUserPwd(user.getId(), password);
@@ -206,17 +204,14 @@ public class LoginController {
 //              return "front/message";
                 //跳到首页了，其实应该用ajax，返回个更新成功的消息的
                 return "redirect:/login.jsp";
-            }else{
+            } else {
                 //验证码不对或验证码不存在
-                model.addAttribute("message","验证码不正确或不存在");
+                model.addAttribute("message", "验证码不正确或不存在");
             }
         }
 
         return "redirect:/find_password.jsp";
     }
-
-
-
 
 
 }
