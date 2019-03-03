@@ -397,7 +397,7 @@ public class IndexController {
     }
 
     @RequestMapping("index_notice_more")
-    public String index_notice_more(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
+    public String indexNoticeMore(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
 

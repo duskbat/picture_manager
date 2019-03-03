@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 
-       <!-- Bootstrap core CSS -->
+    <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery-3.1.1.js"></script>
@@ -24,43 +24,44 @@
 
 
     <script src="${pageContext.request.contextPath}/resources/js/viewer.js"></script>
-    <link href="${pageContext.request.contextPath}/resources/css/viewer.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/css/viewer.css" rel="stylesheet"/>
     <script src="${pageContext.request.contextPath}/resources/js/checkbix.min.js"></script>
-    <link href="${pageContext.request.contextPath}/resources/css/checkbix.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/css/checkbix.css" rel="stylesheet"/>
 
 
     <!-- include summernote -->
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/summernote/summernote.css" />
+    <link type="text/css" rel="stylesheet"
+          href="${pageContext.request.contextPath}/resources/css/summernote/summernote.css"/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/summernote-zh-CN.js"></script>
 
     <!-- 进度条 -->
     <script src="${pageContext.request.contextPath}/resources/js/jquery.lineProgressbar.js"></script>
-    <link href="${pageContext.request.contextPath}/resources/css/jquery.lineProgressbar.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/css/jquery.lineProgressbar.css" rel="stylesheet"/>
 
 
     <link href="${pageContext.request.contextPath}/resources/css/font-awesome.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/awesome-bootstrap-checkbox.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/resources/css/font.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/css/font.css" rel="stylesheet"/>
     <%--<link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet" />--%>
-    <link href="${pageContext.request.contextPath}/resources/css/cont.css" rel="stylesheet" />
-    <link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/css/cont.css" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/resources/css/layout.css" rel="stylesheet"/>
     <link rel="icon" href="${pageContext.request.contextPath}/resources/images/auction1.ico">
     <title>信息公告</title>
 </head>
 <body>
-<%@include file="top.jsp"%>
+<%@include file="top.jsp" %>
 
 <div class="userCenterWrap">
 
     <div class="leftNav hidden-xs hidden-sm">
         <ul>
             <li><a href="company_auditing">待审核</a></li>
-            <li ><a href="company_posted">已发布</a></li>
-            <li><a href="company_upload" >公司上传</a></li>
-            <li ><a href="company_deal" >交易记录</a></li>
-            <li ><a href="company_data" >控制台</a></li>
-            <li class="active"><a href="company_news" >信息公告</a></li>
+            <li><a href="company_posted">已发布</a></li>
+            <li><a href="company_upload">公司上传</a></li>
+            <li><a href="company_deal">交易记录</a></li>
+            <li><a href="company_data">控制台</a></li>
+            <li class="active"><a href="company_news">信息公告</a></li>
         </ul>
     </div>
 
@@ -68,52 +69,57 @@
 
         <ul class="nav nav-pills">
 
-            <li class="active" ><a href="company_news">信息传递</a></li>
-            <li ><a href="company_notice">活动公告</a></li>
+            <li class="active"><a href="company_news">信息传递</a></li>
+            <li><a href="company_notice">活动公告</a></li>
 
         </ul>
 
-        <form class="form-horizontal" action="addCompanyNewsDetail" name="formEdit" method = "post" enctype='multipart/form-data'>
+        <form class="form-horizontal" action="addCompanyNewsDetail" name="formEdit" method="post"
+              enctype='multipart/form-data'>
             <input type="hidden" id="myNewshtmml" name="newHtml"/>
             <input type="hidden" id="myNewsrecord" name="newRecord" value="0"/>
 
             <div class="scriptionLine" style="width: 300px;height: 50px;margin:30px auto;">
-            <h4>信息编辑</h4>
-        </div>
-        <hr>
+                <h4>信息编辑</h4>
+            </div>
+            <hr>
 
-        <br>
+            <br>
 
-        <div class="scriptionLine">
-            <span class="scriptionLeftSpan" style="font-size: 14px">信息标题</span>
-            <span>
-                <input type="text"  name="newTitle" class="form-control" placeholder="信息标题" style="width: 260px;height: 36px;border: 1px solid #204d74;">
+            <div class="scriptionLine">
+                <span class="scriptionLeftSpan" style="font-size: 14px">信息标题</span>
+                <span>
+                <input type="text" name="newTitle" class="form-control" placeholder="信息标题"
+                       style="width: 260px;height: 36px;border: 1px solid #204d74;">
             </span>
-        </div>
-        <br>
+            </div>
+            <br>
 
-        <div class="scriptionLine">
-            <span class="scriptionLeftSpan" style="font-size: 14px">信息来源</span>
-            <span>
-                <input type="text" height="60px"  name="newSource" class="form-control" placeholder="信息来源" style="width: 260px;height: 36px;border: 1px solid #204d74;">
+            <div class="scriptionLine">
+                <span class="scriptionLeftSpan" style="font-size: 14px">信息来源</span>
+                <span>
+                <input type="text" height="60px" name="newSource" class="form-control" placeholder="信息来源"
+                       style="width: 260px;height: 36px;border: 1px solid #204d74;">
             </span>
-        </div>
-        <br>
+            </div>
+            <br>
 
-        <div class="scriptionLine">
-            <span class="scriptionLeftSpan" style="font-size: 14px">作者</span>
-            <span>
-                <input type="text" height="60px"  name="newAuthor" class="form-control" placeholder="作者" style="width: 260px;height: 36px;border: 1px solid #204d74;">
+            <div class="scriptionLine">
+                <span class="scriptionLeftSpan" style="font-size: 14px">作者</span>
+                <span>
+                <input type="text" height="60px" name="newAuthor" class="form-control" placeholder="作者"
+                       style="width: 260px;height: 36px;border: 1px solid #204d74;">
             </span>
-        </div>
-        <br>
+            </div>
+            <br>
 
             <div class="scriptionLine">
                 <span class="scriptionLeftSpan" style="font-size: 14px">发布时间</span>
                 <span>
                 <!-- 格式化日期 -->
                 <fmt:formatDate value="${noticeTime}" type="both" dateStyle="long" var="noticeTime"/>
-                <input type="text" name="newTime" class="form-control input-medium" value="${noticeTime}" id="noticeTime" disabled>
+                <input type="text" name="newTime" class="form-control input-medium" value="${noticeTime}"
+                       id="noticeTime" disabled>
             </span>
             </div>
             <br>
@@ -128,16 +134,18 @@
                 </span>
             </div>
 
-        <br>
+            <br>
 
-        <hr>
+            <hr>
 
             <div style="width: 300px;height: 50px;margin:0px auto;">
                 <a id="get" class="btn btn-primary" style="width: 70px;height: 30px">保&nbsp;存</a>
-                <button type="submit" class="btn btn-primary" id="submit_button" style="margin-left: 100px;width: 70px;height: 30px" disabled="disabled">提&nbsp;交</button>
+                <button type="submit" class="btn btn-primary" id="submit_button"
+                        style="margin-left: 100px;width: 70px;height: 30px" disabled="disabled">提&nbsp;交
+                </button>
             </div>
 
-        <hr>
+            <hr>
 
         </form>
 
@@ -153,14 +161,13 @@
 </div><!--userCenterWrap-->
 
 
-
 <form id="company_news_edit" method="post">
-    <input type="hidden" id="userid" name="id" />
+    <input type="hidden" id="userid" name="id"/>
 </form>
 
 <script type="text/javascript">
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         // 对Date的扩展，将 Date 转化为指定格式的String
 // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
@@ -168,22 +175,21 @@
 // 例子：
 // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
 // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
-        Date.prototype.Format = function(fmt)
-        { //author: meizz
+        Date.prototype.Format = function (fmt) { //author: meizz
             var o = {
-                "M+" : this.getMonth()+1,                 //月份
-                "d+" : this.getDate(),                    //日
-                "h+" : this.getHours(),                   //小时
-                "m+" : this.getMinutes(),                 //分
-                "s+" : this.getSeconds(),                 //秒
-                "q+" : Math.floor((this.getMonth()+3)/3), //季度
-                "S"  : this.getMilliseconds()             //毫秒
+                "M+": this.getMonth() + 1,                 //月份
+                "d+": this.getDate(),                    //日
+                "h+": this.getHours(),                   //小时
+                "m+": this.getMinutes(),                 //分
+                "s+": this.getSeconds(),                 //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds()             //毫秒
             };
-            if(/(y+)/.test(fmt))
-                fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-            for(var k in o)
-                if(new RegExp("("+ k +")").test(fmt))
-                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
             return fmt;
         }
 
@@ -192,39 +198,38 @@
 
 
         $(".edit_button").click(
-            function ()
-            {
-                $("#company_news_edit").attr("action","<%=basePath%>company_news_edit");
-                $("#userid").attr("value",$(this).parent().attr("id"));
+            function () {
+                $("#company_news_edit").attr("action", "<%=basePath%>company_news_edit");
+                $("#userid").attr("value", $(this).parent().attr("id"));
                 $("#company_news_edit").submit();
             }
         );
 
 
-        $('div.summernote').each(function() {
+        $('div.summernote').each(function () {
             var $this = $(this);
             var placeholder = $this.attr("placeholder") || '';
             var url = $this.attr("action") || '';
             $this.summernote({
-                lang : 'zh-CN',
-                placeholder : placeholder,
-                minHeight : 300,
-                dialogsFade : true,// Add fade effect on dialogs
-                dialogsInBody : true,// Dialogs can be placed in body, not in
+                lang: 'zh-CN',
+                placeholder: placeholder,
+                minHeight: 300,
+                dialogsFade: true,// Add fade effect on dialogs
+                dialogsInBody: true,// Dialogs can be placed in body, not in
                 // summernote.
-                disableDragAndDrop : false,// default false You can disable drag
+                disableDragAndDrop: false,// default false You can disable drag
                 // and drop
             });
         });
 
         $('.summernote').summernote({
-            callbacks : {
+            callbacks: {
                 // onImageUpload的参数为files，summernote支持选择多张图片
-                onImageUpload : function(files) {
+                onImageUpload: function (files) {
                     var $files = $(files);
 
                     // 通过each方法遍历每一个file
-                    $files.each(function() {
+                    $files.each(function () {
                         var file = this;
                         // FormData，新的form表单封装，具体可百度，但其实用法很简单，如下
                         var data = new FormData();
@@ -234,15 +239,15 @@
 
                         // ajax上传
                         $.ajax({
-                            data : data,
-                            type : "POST",
-                            url : url,// div上的action
-                            cache : false,
-                            contentType : false,
-                            processData : false,
+                            data: data,
+                            type: "POST",
+                            url: url,// div上的action
+                            cache: false,
+                            contentType: false,
+                            processData: false,
 
                             // 成功时调用方法，后端返回json数据
-                            success : function(response) {
+                            success: function (response) {
                                 // 封装的eval方法，可百度
                                 var json = YUNM.jsonEval(response);
 
@@ -261,7 +266,7 @@
                                         var imageUrl = json[YUNM.keys.result].completeSavePath;
 
                                         // 插入到summernote
-                                        $this.summernote('insertImage', imageUrl, function($image) {
+                                        $this.summernote('insertImage', imageUrl, function ($image) {
                                             // todo，后续可以对image对象增加新的css式样等等，这里默认
                                         });
                                     }
@@ -269,7 +274,7 @@
 
                             },
 
-                            debug : function(msg) {
+                            debug: function (msg) {
                                 if (this._set.debug) {
                                     if (typeof (console) != "undefined")
                                         console.log(msg);
@@ -277,7 +282,7 @@
                                         alert(msg);
                                 }
                             },
-                            jsonEval : function(data) {
+                            jsonEval: function (data) {
                                 try {
                                     if ($.type(data) == 'string')
                                         return eval('(' + data + ')');
@@ -287,7 +292,7 @@
                                     return {};
                                 }
                             },
-                            ajaxError : function(xhr, ajaxOptions, thrownError) {
+                            ajaxError: function (xhr, ajaxOptions, thrownError) {
                                 if (xhr.responseText) {
                                     $.showErr("<div>" + xhr.responseText + "</div>");
                                 } else {
@@ -296,7 +301,7 @@
                                 }
 
                             },
-                            ajaxDone : function(json) {
+                            ajaxDone: function (json) {
                                 if (json[YUNM.keys.statusCode] == YUNM.statusCode.error) {
                                     if (json[YUNM.keys.message]) {
                                         YUNM.debug(json[YUNM.keys.message]);
@@ -310,7 +315,7 @@
                             },
 
                             // ajax请求失败时处理
-                            error : YUNM.ajaxError
+                            error: YUNM.ajaxError
                         });
                     });
                 }
@@ -318,7 +323,7 @@
         });
 
 // summernote.image.upload
-        $('.summernote').on('summernote.image.upload', function(we, files) {
+        $('.summernote').on('summernote.image.upload', function (we, files) {
             // upload image to server and create imgNode...
             $summernote.summernote('insertNode', imgNode);
         });
@@ -337,22 +342,18 @@
         });
 
 
-
-
         //删除
-        $(".delete_button").click(function ()
-            {
-                if (confirm("确定要删除这个关键词吗？"))
-                {
+        $(".delete_button").click(function () {
+                if (confirm("确定要删除这个关键词吗？")) {
                     $.ajax({
                         type: "POST",
                         url: "<%=basePath%>deleteNews",
                         data: {id: $(this).parent().attr("id")},
-                        async : false,
+                        async: false,
                         dataType: "json",
-                        success: function (data){
+                        success: function (data) {
 //                            alert("操作成功");
-                            if(data=="delete_success")
+                            if (data == "delete_success")
                                 window.location.reload(true);
                         }
                     });
