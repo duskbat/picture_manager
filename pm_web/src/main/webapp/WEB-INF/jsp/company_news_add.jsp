@@ -66,12 +66,9 @@
     </div>
 
     <div class="midCont" style="margin-left: 10%">
-
         <ul class="nav nav-pills">
-
             <li class="active"><a href="company_news">信息传递</a></li>
             <li><a href="company_notice">活动公告</a></li>
-
         </ul>
 
         <form class="form-horizontal" action="addCompanyNewsDetail" name="formEdit" method="post"
@@ -83,9 +80,7 @@
                 <h4>信息编辑</h4>
             </div>
             <hr>
-
             <br>
-
             <div class="scriptionLine">
                 <span class="scriptionLeftSpan" style="font-size: 14px">信息标题</span>
                 <span>
@@ -133,9 +128,7 @@
 
                 </span>
             </div>
-
             <br>
-
             <hr>
 
             <div style="width: 300px;height: 50px;margin:0px auto;">
@@ -144,9 +137,7 @@
                         style="margin-left: 100px;width: 70px;height: 30px" disabled="disabled">提&nbsp;交
                 </button>
             </div>
-
             <hr>
-
         </form>
 
         <br>
@@ -166,15 +157,13 @@
 </form>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
-
-        // 对Date的扩展，将 Date 转化为指定格式的String
-// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
-// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
-// 例子：
-// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
-// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+    // 对Date的扩展，将 Date 转化为指定格式的String
+    // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+    // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+    // 例子：
+    // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+    // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
         Date.prototype.Format = function (fmt) { //author: meizz
             var o = {
                 "M+": this.getMonth() + 1,                 //月份
