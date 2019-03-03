@@ -4,16 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pm.entity.*;
 import com.pm.service.*;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.omg.CORBA.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
-import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.File;
@@ -46,7 +42,7 @@ public class IndexController {
     RatingService ratingService;
 
     @RequestMapping("indexs")
-    public String indexs(Model model, @RequestParam(value="pn",defaultValue="1") Integer pn){
+    public String indexs(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) {
         Integer indexSlide = 2;
         List<FileUp> fileUpSlide = fileService.selectCompanySlide(indexSlide);
         model.addAttribute("fileUpSlide", fileUpSlide);
@@ -70,22 +66,24 @@ public class IndexController {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
 
-            Constant constant = new Constant();
-            model.addAttribute("webip", constant.webip);
+        Constant constant = new Constant();
+        model.addAttribute("webip", constant.webip);
         return "forward:/indexs.jsp";
     }
+
     @RequestMapping("rating")
-    public String rating(Long userid,Long pictureid,Byte rating) {
+    public String rating(Long userid, Long pictureid, Byte rating) {
 //        System.out.println(userId);
 //        System.out.println(pictureId);
 //        System.out.println(rating);
         ratingService.rating(userid, pictureid, rating);
         return "redirect:/logged_index";
     }
-    @RequestMapping("rate")
-    public String showRatingById(Model model,Long userid,Long pictureid){
 
-        Rating rate = ratingService.showRatingById(userid,pictureid);
+    @RequestMapping("rate")
+    public String showRatingById(Model model, Long userid, Long pictureid) {
+
+        Rating rate = ratingService.showRatingById(userid, pictureid);
         model.addAttribute("rate", rate);
         Constant constant = new Constant();
         model.addAttribute("webip", constant.webip);
@@ -94,7 +92,7 @@ public class IndexController {
 
 
     @RequestMapping("logged_index")
-    public String logged_index(Model model, @RequestParam(value="pn",defaultValue="1") Integer pn){
+    public String logged_index(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) {
         Integer indexSlide = 2;
         List<FileUp> fileUpSlide = fileService.selectCompanySlide(indexSlide);
         model.addAttribute("fileUpSlide", fileUpSlide);
@@ -126,13 +124,13 @@ public class IndexController {
 
 
     @RequestMapping("index_detail")
-    public String index_detail(Model model,Long id,HttpSession session){
-        if(session.getAttribute("user")==null){
+    public String index_detail(Model model, Long id, HttpSession session) {
+        if (session.getAttribute("user") == null) {
             List<MyKeyword> keywords = loginService.selectKeyword();
             model.addAttribute("keywords", keywords);
             return "redirect:/login.jsp";
-        }else{
-            FileUp fileUp= fileService.selectFileById(id);
+        } else {
+            FileUp fileUp = fileService.selectFileById(id);
             String file_path = "D:/software/apache-tomcat-8.0.47/webapps/ROOT/picture_bed/";
             String path = file_path + fileUp.getFilePath();
             String pathBig = file_path + fileUp.getFillePathbig();
@@ -181,13 +179,13 @@ public class IndexController {
 
 
     @RequestMapping("index_video_detail")
-    public String index_video_detail(Model model,Long id,HttpSession session){
-        if(session.getAttribute("user")==null){
+    public String index_video_detail(Model model, Long id, HttpSession session) {
+        if (session.getAttribute("user") == null) {
             List<MyKeyword> keywords = loginService.selectKeyword();
             model.addAttribute("keywords", keywords);
             return "redirect:/login.jsp";
-        }else{
-            FileUp fileUp= fileService.selectFileById(id);
+        } else {
+            FileUp fileUp = fileService.selectFileById(id);
             model.addAttribute("fileUps", fileUp);
             List<MyKeyword> keywords = loginService.selectKeyword();
             model.addAttribute("keywords", keywords);
@@ -202,19 +200,19 @@ public class IndexController {
 
 
     @RequestMapping("index_search")
-    public String index_search(Model model,String keyword,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String index_search(Model model, String keyword, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         PageHelper.startPage(pn, 60);
-        String keyword1 = new String( keyword.getBytes("UTF-8"), "UTF-8") ;
-        System.out.println(keyword1+"000000000000000");
+        String keyword1 = new String(keyword.getBytes("UTF-8"), "UTF-8");
+        System.out.println(keyword1 + "000000000000000");
         Integer stateId = 3;
-        List<FileUp> fileUp= fileService.searchByKeyWord(keyword1,stateId);
+        List<FileUp> fileUp = fileService.searchByKeyWord(keyword1, stateId);
         ArrayList<FileUp> fileUpjpg = new ArrayList<FileUp>();
-        for(FileUp f:fileUp ){
-            if(f.getFileName().endsWith("jpg")){
+        for (FileUp f : fileUp) {
+            if (f.getFileName().endsWith("jpg")) {
                 fileUpjpg.add(f);
             }
         }
-        PageInfo page = new PageInfo(fileUpjpg,5);
+        PageInfo page = new PageInfo(fileUpjpg, 5);
         model.addAttribute("pageInfo", page);
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
@@ -229,21 +227,20 @@ public class IndexController {
     }
 
 
-
     @RequestMapping("index_video_search")
-    public String index_video_search(Model model,String keyword,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String index_video_search(Model model, String keyword, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         PageHelper.startPage(pn, 30);
-        String keyword1 = new String( keyword.getBytes("UTF-8"), "UTF-8") ;
-        System.out.println(keyword1+"000000000000000");
+        String keyword1 = new String(keyword.getBytes("UTF-8"), "UTF-8");
+        System.out.println(keyword1 + "000000000000000");
         Integer stateId = 3;
-        List<FileUp> fileUp= fileService.searchByKeyWord(keyword1,stateId);
+        List<FileUp> fileUp = fileService.searchByKeyWord(keyword1, stateId);
         ArrayList<FileUp> fileUpmp4 = new ArrayList<FileUp>();
-        for(FileUp f:fileUp ){
-            if(f.getFileName().endsWith("mp4")){
+        for (FileUp f : fileUp) {
+            if (f.getFileName().endsWith("mp4")) {
                 fileUpmp4.add(f);
             }
         }
-        PageInfo page = new PageInfo(fileUpmp4,5);
+        PageInfo page = new PageInfo(fileUpmp4, 5);
         model.addAttribute("pageInfo", page);
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
@@ -259,19 +256,19 @@ public class IndexController {
 
 
     @RequestMapping("selectVertical")
-    public String selectVertical(Model model,Integer direction,String keyword,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String selectVertical(Model model, Integer direction, String keyword, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         PageHelper.startPage(pn, 100);
-        System.out.println(direction+"fangxiang");
-        System.out.println(keyword+"guanjianci");
+        System.out.println(direction + "fangxiang");
+        System.out.println(keyword + "guanjianci");
         Integer stateId = 3;
-        List<FileUp> fileUp= fileService.selectVertical(direction,keyword,stateId);
+        List<FileUp> fileUp = fileService.selectVertical(direction, keyword, stateId);
         ArrayList<FileUp> fileUpjpg = new ArrayList<FileUp>();
-        for(FileUp f:fileUp ){
-            if(f.getFileName().endsWith("jpg")){
+        for (FileUp f : fileUp) {
+            if (f.getFileName().endsWith("jpg")) {
                 fileUpjpg.add(f);
             }
         }
-        PageInfo page = new PageInfo(fileUpjpg,2);
+        PageInfo page = new PageInfo(fileUpjpg, 2);
         model.addAttribute("pageInfo", page);
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("direction", direction);
@@ -285,19 +282,19 @@ public class IndexController {
     }
 
     @RequestMapping("selectVideoVertical")
-    public String selectVideoVertical(Model model,Integer direction,String keyword,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String selectVideoVertical(Model model, Integer direction, String keyword, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         PageHelper.startPage(pn, 100);
-        System.out.println(direction+"fangxiang");
-        System.out.println(keyword+"guanjianci");
+        System.out.println(direction + "fangxiang");
+        System.out.println(keyword + "guanjianci");
         Integer stateId = 3;
-        List<FileUp> fileUp= fileService.selectVertical(direction,keyword,stateId);
+        List<FileUp> fileUp = fileService.selectVertical(direction, keyword, stateId);
         ArrayList<FileUp> fileUpmp4 = new ArrayList<FileUp>();
-        for(FileUp f:fileUp ){
-            if(f.getFileName().endsWith("mp4")){
+        for (FileUp f : fileUp) {
+            if (f.getFileName().endsWith("mp4")) {
                 fileUpmp4.add(f);
             }
         }
-        PageInfo page = new PageInfo(fileUpmp4,2);
+        PageInfo page = new PageInfo(fileUpmp4, 2);
         model.addAttribute("pageInfo", page);
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("direction", direction);
@@ -313,19 +310,19 @@ public class IndexController {
 
 
     @RequestMapping("selectVideoSpice")
-    public String selectVideoSpice(Model model,Integer spice,String keyword,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String selectVideoSpice(Model model, Integer spice, String keyword, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         PageHelper.startPage(pn, 100);
-        System.out.println(spice+"fangxiang");
-        System.out.println(keyword+"guanjianci");
+        System.out.println(spice + "fangxiang");
+        System.out.println(keyword + "guanjianci");
         Integer stateId = 3;
-        List<FileUp> fileUp= fileService.selectSpice(spice,keyword,stateId);
+        List<FileUp> fileUp = fileService.selectSpice(spice, keyword, stateId);
         ArrayList<FileUp> fileUpmp4 = new ArrayList<FileUp>();
-        for(FileUp f:fileUp ){
-            if(f.getFileName().endsWith("mp4")){
+        for (FileUp f : fileUp) {
+            if (f.getFileName().endsWith("mp4")) {
                 fileUpmp4.add(f);
             }
         }
-        PageInfo page = new PageInfo(fileUpmp4,2);
+        PageInfo page = new PageInfo(fileUpmp4, 2);
         model.addAttribute("pageInfo", page);
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("spice", spice);
@@ -340,17 +337,17 @@ public class IndexController {
 
 
     @RequestMapping("selectMode")
-    public String selectMode(Model model,Integer mode,String keyword,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String selectMode(Model model, Integer mode, String keyword, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         PageHelper.startPage(pn, 100);
         Integer stateId = 3;
-        List<FileUp> fileUp= fileService.selectMode(mode,keyword,stateId);
+        List<FileUp> fileUp = fileService.selectMode(mode, keyword, stateId);
         ArrayList<FileUp> fileUpjpg = new ArrayList<FileUp>();
-        for(FileUp f:fileUp ){
-            if(f.getFileName().endsWith("jpg")){
+        for (FileUp f : fileUp) {
+            if (f.getFileName().endsWith("jpg")) {
                 fileUpjpg.add(f);
             }
         }
-        PageInfo page = new PageInfo(fileUpjpg,2);
+        PageInfo page = new PageInfo(fileUpjpg, 2);
         model.addAttribute("pageInfo", page);
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("mode", mode);
@@ -365,31 +362,31 @@ public class IndexController {
 
 
     @RequestMapping("index_news_more")
-    public String index_news_more(Model model,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String index_news_more(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
 
         PageHelper.startPage(pn, 20);
         List<MyNews> myNews = newsService.selectNews();
-        PageInfo page = new PageInfo(myNews,5);
+        PageInfo page = new PageInfo(myNews, 5);
         model.addAttribute("pageInfo", page);
 
         PageHelper.startPage(pn, 1);
         Integer indexAnimal = 2;
         List<FileUp> fileUpAnimal = fileService.selectCompanyAnimal(indexAnimal);
-        PageInfo pageAnimal = new PageInfo(fileUpAnimal,1);
+        PageInfo pageAnimal = new PageInfo(fileUpAnimal, 1);
         model.addAttribute("pageAnimal", pageAnimal);
 
         PageHelper.startPage(pn, 1);
         Integer indexPlant = 2;
         List<FileUp> fileUpPlant = fileService.selectCompanyPlant(indexPlant);
-        PageInfo pagePlant = new PageInfo(fileUpPlant,1);
+        PageInfo pagePlant = new PageInfo(fileUpPlant, 1);
         model.addAttribute("pagePlant", pagePlant);
 
         PageHelper.startPage(pn, 1);
         Integer indexScape = 2;
         List<FileUp> fileUpScape = fileService.selectCompanyScape(indexScape);
-        PageInfo pageScape = new PageInfo(fileUpScape,1);
+        PageInfo pageScape = new PageInfo(fileUpScape, 1);
         model.addAttribute("pageScape", pageScape);
 
 
@@ -400,13 +397,13 @@ public class IndexController {
     }
 
     @RequestMapping("index_notice_more")
-    public String index_notice_more(Model model,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String index_notice_more(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
 
         PageHelper.startPage(pn, 20);
         List<MyNotice> myNotices = newsService.selectNotice();
-        PageInfo page = new PageInfo(myNotices,5);
+        PageInfo page = new PageInfo(myNotices, 5);
         model.addAttribute("pageInfo", page);
 
         Constant constant = new Constant();
@@ -415,14 +412,14 @@ public class IndexController {
     }
 
     @RequestMapping("index_news_detail")
-    public String index_news_detail(Model model,Long id,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String index_news_detail(Model model, Long id, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
 
         MyNews myNews = newsService.selectNewsById(id);
 
-        Integer newRecord =  myNews.getNewRecord()+1;
-        newsService.saveNewRecord(id,newRecord);
+        Integer newRecord = myNews.getNewRecord() + 1;
+        newsService.saveNewRecord(id, newRecord);
         model.addAttribute("myNews", myNews);
         model.addAttribute("newRecord", newRecord);
 
@@ -441,15 +438,15 @@ public class IndexController {
 
 
     @RequestMapping("index_notice_detail")
-    public String index_notice_detail(Model model,Long id,@RequestParam(value="pn",defaultValue="1") Integer pn) throws UnsupportedEncodingException {
+    public String index_notice_detail(Model model, Long id, @RequestParam(value = "pn", defaultValue = "1") Integer pn) throws UnsupportedEncodingException {
         List<MyKeyword> keywords = loginService.selectKeyword();
         model.addAttribute("keywords", keywords);
 
         MyNotice myNews = newsService.selectNoticeById(id);
         model.addAttribute("myNews", myNews);
 
-        Integer newRecord =  myNews.getNewRecord()+1;
-        newsService.saveNoticeRecord(id,newRecord);
+        Integer newRecord = myNews.getNewRecord() + 1;
+        newsService.saveNoticeRecord(id, newRecord);
         model.addAttribute("newRecord", newRecord);
 
 //加载上一篇，下一篇的标题
