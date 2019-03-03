@@ -70,16 +70,8 @@ public class IndexController {
         model.addAttribute("webip", constant.webip);
         return "forward:/indexs.jsp";
     }
-
-    @RequestMapping("rating")
-    public String rating(Long userid, Long pictureid, Byte rating) {
-//        System.out.println(userId);
-//        System.out.println(pictureId);
-//        System.out.println(rating);
-        ratingService.rating(userid, pictureid, rating);
-        return "redirect:/logged_index";
-    }
-
+    //这个地方还应该有个mapping，"index_rate"
+    /*
     @RequestMapping("rate")
     public String showRatingById(Model model, Long userid, Long pictureid) {
 
@@ -89,8 +81,7 @@ public class IndexController {
         model.addAttribute("webip", constant.webip);
         return "logged_index";
     }
-
-
+    */
     @RequestMapping("logged_index")
     public String logged_index(Model model, @RequestParam(value = "pn", defaultValue = "1") Integer pn) {
         Integer indexSlide = 2;
