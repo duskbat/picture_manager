@@ -97,17 +97,16 @@
                                      class="pictures">
                             </a>
                         </div>
-
                         <div class="btnWrap">
                             <input type="checkbox" style="width: 15px;height: 15px" id="${picture.id}"
                                    data-shape="circled" data-color="orange" class="checkbix">
-                            <span id="${picture.id}${picture.id}" style="margin-left: 15px;color: #0074D9">点击图片编辑<span
-                                    style="margin-left: 10px;font-size: 10px">(第2步)</span></span>
+                            <span id="${picture.id}${picture.id}" style="margin-left: 15px;color: #0074D9">
+                                点击图片编辑<span style="margin-left: 10px;font-size: 10px">(第2步)</span>
+                            </span>
                             <br>
                             <button id="${picture.id}${picture.id}${picture.id}" class="company_audit_small"
-                                    style="display: none;width: 180px;height: 30px;padding: 3px;font-size: 15px;">发&nbsp;&nbsp;&nbsp;&nbsp;布
+                                    style="width: 180px;height: 30px;padding: 3px;font-size: 15px;">发&nbsp;&nbsp;&nbsp;&nbsp;布
                             </button>
-
                         </div>
 
                         <div class="thumbDetail" style="color: black">
