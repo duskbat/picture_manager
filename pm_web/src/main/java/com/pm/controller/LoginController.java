@@ -1,14 +1,18 @@
 package com.pm.controller;
 
 import com.pm.entity.FileUp;
+import com.pm.service.FileService;
+import com.pm.utils.MD5Utils;
+import org.apache.http.HttpRequest;
+
+import javax.servlet.http.Cookie;
+import javax.xml.ws.spi.http.HttpContext;
+
 import com.pm.entity.MyKeyword;
 import com.pm.entity.User;
-import com.pm.service.FileService;
 import com.pm.service.LoginService;
-import com.pm.utils.MD5Utils;
 import com.pm.utils.RandomCode;
 import com.pm.utils.SendEmailUtil;
-import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.spi.http.HttpContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,20 +34,18 @@ public class LoginController {
     LoginService loginService;
 
     @RequestMapping("/login")
-    public String toLogin(Model model, String username, String password, HttpSession session, HttpServletRequest request) {
+    public String login(Model model, String username, String password, HttpSession session, HttpServletRequest request) {
         User user = loginService.getUser(username, password);
         if (user == null) {
+            //TODO 下面两行写的是查询关键词？？搁这儿干啥？
             List<MyKeyword> keywords = loginService.selectKeyword();
             model.addAttribute("keywords", keywords);
             return "redirect:/login.jsp";
         } else {
             session.setAttribute("user", user);
-
             if (user.getAdmin().equals("管理员")) {
-
                 return "forward:/company_auditing";
             }
-
             return "redirect:/logged_index";
         }
     }
@@ -108,11 +108,9 @@ public class LoginController {
     @RequestMapping("/sendEmail")
     @ResponseBody
     public Map sendEmail(@RequestBody String email) {
-        HashMap map = new HashMap();
-
+        HashMap<String,Object> map = new HashMap<>();
         //根据给定的邮箱发送邮件
         User user = loginService.queryUserByEmail(email);
-
         if (user == null) {
             //用户为空，说明填写的邮箱就不对
             map.put("success", false);
@@ -133,7 +131,6 @@ public class LoginController {
             map.put("success", false);
             map.put("message", "验证码发送失败，请检查邮箱账号");
         }
-
         return map;
     }
 

@@ -56,7 +56,7 @@
                     <input type="text" class="form-control" id="email" placeholder="邮箱" name="email" style="border: 1px solid #bfbfbf;margin-bottom: 20px">
                 </div>
                 <div class="col-sm-3">
-                    <input type="button" disabled="disabled" class="btn btn-warning btn-block bt" style="font-size: 13px;padding: 2px" value="获取验证码" onclick="submitEmail();">
+                    <input type="button" class="btn btn-warning btn-block bt" style="font-size: 13px;padding: 2px" value="获取验证码" onclick="submitEmail();">
                 </div>
         </div>
         <div class="form-group">
@@ -66,7 +66,7 @@
                 </div>
         </div>
         <div class="form-group">
-            <button id="submit_button" disabled="disabled" type="submit" class="btn btn-info btn-block"
+            <button id="submit_button" type="submit" class="btn btn-info btn-block"
                     style="margin-top: 20px;margin-left: 90px ;font-size: 16px;width: 500px">验&nbsp;&nbsp;&nbsp;&nbsp;证</button>
         </div>
     </form>

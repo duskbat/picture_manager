@@ -1,5 +1,6 @@
 package com.pm.service.impl;
 
+import com.pm.dao.KeyWordMapper;
 import com.pm.dao.MyKeywordMapper;
 import com.pm.dao.UserMapper;
 import com.pm.entity.MyKeyword;
@@ -23,6 +24,9 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     MyKeywordMapper myKeywordMapper;
+
+    @Autowired
+    KeyWordMapper keyWordMapper;
 
     @Override
     public User getUser(String username, String password) {
@@ -76,7 +80,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public List<MyKeyword> selectKeyword() {
-        return myKeywordMapper.selectByExample(new MyKeywordExample());
+        //return myKeywordMapper.selectByExample(new MyKeywordExample());
+        return keyWordMapper.selectByExample(new MyKeyword());
     }
 
     @Override
